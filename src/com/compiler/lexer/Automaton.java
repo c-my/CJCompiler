@@ -6,7 +6,8 @@ import java.util.HashSet;
 // 自动机
 abstract class Automaton {
 
-    Automaton(){ }
+    Automaton() {
+    }
 
     HashSet<Character> empty = new HashSet<>();
 

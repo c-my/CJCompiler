@@ -1,13 +1,15 @@
 package com.compiler.parser;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class SymbolString implements Iterable {
 
-    SymbolString(ArrayList<Symbol> list, int i) {
-        symString = list;
+    SymbolString(List<Symbol> list, int i) {
+        symString = (ArrayList<Symbol>) list;
         id = i;
     }
 
@@ -43,8 +45,24 @@ public class SymbolString implements Iterable {
         return symString.isEmpty();
     }
 
+    public int size() {
+        return symString.size();
+    }
+
     public Symbol get(int index) {
         return symString.get(index);
+    }
+
+    public boolean contains(Symbol sym) {
+        return symString.contains(sym);
+    }
+
+    public int indexOf(Symbol sym) {
+        return symString.indexOf(sym);
+    }
+
+    public SymbolString subList(int fromindex, int toindex) {
+        return new SymbolString(symString.subList(fromindex, toindex), this.id);
     }
 
     public int getId() {

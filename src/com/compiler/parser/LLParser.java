@@ -1,11 +1,16 @@
 package com.compiler.parser;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 abstract class LLParser {
 
     abstract HashMap<Symbol, HashSet<SymbolString>> getProductionRules();
+
+    abstract Symbol getStartSymbol();
+
+    private Symbol endSym = new Symbol("#", Symbol.SymbolType.End);
 
     private HashSet<Symbol> getFirst(final SymbolString symstr) {
         var first = new HashSet<Symbol>();
@@ -18,6 +23,14 @@ abstract class LLParser {
             }
 
             // 左部为非终结符
+            first = getFirst(s);
+            for (var it = symstr.iterator(); it.hasNext(); ) {
+                var sy = it.next();
+                if (canProduceEmpty(sy)) {
+                    var fi = getFirst(sy);
+                    first.addAll(fi);
+                }
+            }
         }
         return first;
     }
@@ -42,14 +55,49 @@ abstract class LLParser {
     }
 
     private HashSet<Symbol> getFollow(final Symbol sym) {
-        return null;
+        HashSet<Symbol> follow = new HashSet<>();
+        if (sym.getType().equals(Symbol.SymbolType.Terminal))
+            return follow;
+        if (sym.equals(getStartSymbol())) {
+            follow.add(endSym);
+        }
+        var rules = getProductionRules();
+        for (var r : rules.keySet()) {
+            var strs = rules.get(r);
+            for (var st : strs) {
+                if (st.contains(sym)) {
+                    if (st.indexOf(sym) != st.size() - 1) {// 该符号不位于产生式末尾
+                        Symbol next = st.get(st.indexOf(sym) + 1);
+                        if (next.getType().equals(Symbol.SymbolType.Terminal)) {
+                            follow.add(next);
+                        } else if (next.getType().equals(Symbol.SymbolType.Nonterminal)) {
+                            var sub = st.subList(st.indexOf(sym) + 1, st.size());
+                            var fo = getFirst(sub);
+                            follow.addAll(fo);
+                            if (canProduceEmpty(sub)) {
+                                if (!r.equals(sym)) {
+                                    var v = getFollow(r);
+                                    follow.addAll(v);
+                                }
+                            }
+                        }
+                    } else { // 该符号位于产生式末尾
+                        if (!r.equals(sym)) {
+                            var fo = getFollow(r);
+                            follow.addAll(fo);
+                        }
+                    }
+                }
+            }
+        }
+        return follow;
     }
 
     private HashSet<Symbol> getSelece(final SymbolString symstr) {
         if (canProduceEmpty(symstr)) {
             final var rules = getProductionRules();
-            var it = rules.keySet().stream().filter((statePair)->rules.get(statePair).contains(symstr)).findFirst();
-            if(it.isEmpty())
+            var it = rules.keySet().stream().filter((statePair) -> rules.get(statePair).contains(symstr)).findFirst();
+            if (it.isEmpty())
                 return new HashSet<>();
             var first = getFirst(symstr);
             var follow = getFollow(it.get());
@@ -71,18 +119,17 @@ abstract class LLParser {
 
     private boolean canProduceEmpty(final Symbol sym) {
         var rules = getProductionRules();
-        if(sym.getType().equals(Symbol.SymbolType.Nonterminal)){
-            if(!rules.keySet().contains(sym)){ // 没有产生式
+        if (sym.getType().equals(Symbol.SymbolType.Nonterminal)) {
+            if (!rules.keySet().contains(sym)) { // 没有产生式
                 return false;
             }
             var symstr = rules.get(sym);
-            for(var st:symstr){
-                if(st.isEmpty()){
+            for (var st : symstr) {
+                if (st.isEmpty()) {
                     return true;
                 }
             }
             return false;
-        }
-        else return sym.getType().equals(Symbol.SymbolType.Empty);
+        } else return sym.getType().equals(Symbol.SymbolType.Empty);
     }
 }

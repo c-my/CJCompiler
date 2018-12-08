@@ -2,15 +2,17 @@ package com.compiler.parser;
 
 public class Symbol {
 
-    Symbol(){
+    Symbol() {
         sType = SymbolType.Terminal;
-    };
-    Symbol(final String name, SymbolType st){
+    }
+    
+
+    Symbol(final String name, SymbolType st) {
         id = name;
         sType = st;
     }
 
-    enum SymbolType{
+    enum SymbolType {
         Terminal, Nonterminal, Empty, End, Action
     }
 
@@ -32,9 +34,9 @@ public class Symbol {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof Symbol) {
-            var sym = (Symbol)obj;
-            return this.id.equals(sym.id)&&
+        if (obj instanceof Symbol) {
+            var sym = (Symbol) obj;
+            return this.id.equals(sym.id) &&
                     this.sType.equals(sym.sType);
         }
         return false;

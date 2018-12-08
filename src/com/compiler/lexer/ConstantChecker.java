@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 public class ConstantChecker extends Automaton {
 
-    ConstantChecker(){
+    ConstantChecker() {
         transitionForm.put(new StatePair(STATE0, decHeader), STATE1);
         transitionForm.put(new StatePair(STATE1, decNumber), STATE1);
         transitionForm.put(new StatePair(STATE1, euler), STATE3);
