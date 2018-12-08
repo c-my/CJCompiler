@@ -37,7 +37,7 @@ public class ConstantChecker extends Automaton {
 
     @Override
     int getStartState() {
-        return 0;
+        return STATE0;
     }
 
     @Override
