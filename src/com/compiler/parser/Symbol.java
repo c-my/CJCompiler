@@ -5,7 +5,7 @@ public class Symbol {
     Symbol() {
         sType = SymbolType.Terminal;
     }
-    
+
 
     Symbol(final String name, SymbolType st) {
         id = name;
@@ -26,6 +26,11 @@ public class Symbol {
 
     private String id;
     private SymbolType sType;
+
+    @Override
+    public String toString() {
+        return id;
+    }
 
     @Override
     public int hashCode() {

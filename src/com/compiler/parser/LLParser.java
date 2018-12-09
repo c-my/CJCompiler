@@ -10,6 +10,24 @@ abstract class LLParser {
 
     abstract Symbol getStartSymbol();
 
+    @Override
+    public String toString(){
+        HashMap<Symbol, HashSet<SymbolString>> rules = getProductionRules();
+        var keys = rules.keySet();
+        StringBuilder sb = new StringBuilder();
+
+        for(var key:keys){
+            sb.append(key.toString());
+            sb.append("->");
+            for(var s: rules.get(key)){
+                sb.append(s.toString());
+                sb.append("|");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
     private Symbol endSym = new Symbol("#", Symbol.SymbolType.End);
 
     private HashSet<Symbol> getFirst(final SymbolString symstr) {
@@ -93,7 +111,7 @@ abstract class LLParser {
         return follow;
     }
 
-    private HashSet<Symbol> getSelece(final SymbolString symstr) {
+    public HashSet<Symbol> getSelect(final SymbolString symstr) {
         if (canProduceEmpty(symstr)) {
             final var rules = getProductionRules();
             var it = rules.keySet().stream().filter((statePair) -> rules.get(statePair).contains(symstr)).findFirst();
