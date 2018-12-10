@@ -16,7 +16,7 @@ public class SymbolString implements Iterable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for(Symbol s:symString){
+        for (Symbol s : symString) {
             sb.append(s.toString());
         }
         return sb.toString();
@@ -24,8 +24,8 @@ public class SymbolString implements Iterable {
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof SymbolString){
-            SymbolString ss = (SymbolString)obj;
+        if (obj instanceof SymbolString) {
+            SymbolString ss = (SymbolString) obj;
             return this.id == ss.id && this.symString.equals(ss.symString);
         }
         return false;
@@ -58,8 +58,8 @@ public class SymbolString implements Iterable {
     }
 
 
-    public boolean isEmpty() {
-        return symString.isEmpty()||
+    boolean isEmpty() {
+        return symString.isEmpty() ||
                 (symString.get(0).getType().equals(Symbol.SymbolType.Empty));
     }
 

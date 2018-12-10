@@ -42,8 +42,12 @@ public class ParserTest extends LLParser {
 
         startSym = E;
 
-        HashSet<Symbol> select = getSelect(s6);
-        System.out.println(select);
+        var form = getForm();
+        for (var k : form.keySet()) {
+            System.out.print(k);
+            System.out.print("\t");
+            System.out.println(form.get(k));
+        }
 
     }
 

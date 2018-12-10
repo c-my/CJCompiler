@@ -1,6 +1,5 @@
 package com.compiler.parser;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -11,15 +10,15 @@ abstract class LLParser {
     abstract Symbol getStartSymbol();
 
     @Override
-    public String toString(){
+    public String toString() {
         HashMap<Symbol, HashSet<SymbolString>> rules = getProductionRules();
         var keys = rules.keySet();
         StringBuilder sb = new StringBuilder();
 
-        for(var key:keys){
+        for (var key : keys) {
             sb.append(key.toString());
             sb.append("->");
-            for(var s: rules.get(key)){
+            for (var s : rules.get(key)) {
                 sb.append(s.toString());
                 sb.append("|");
             }
@@ -29,6 +28,21 @@ abstract class LLParser {
     }
 
     private Symbol endSym = new Symbol("#", Symbol.SymbolType.End);
+
+    public HashMap<Pair<Symbol, Symbol>, SymbolString> getForm() {
+        HashMap<Pair<Symbol, Symbol>, SymbolString> form = new HashMap<>();
+        var rules = getProductionRules();
+        for (var ru : rules.keySet()) {
+            var strs = rules.get(ru);
+            for (var st : strs) {
+                var select = getSelect(st);
+                for (var sym : select) {
+                    form.put(new Pair<>(ru, sym), st);
+                }
+            }
+        }
+        return form;
+    }
 
     private HashSet<Symbol> getFirst(final SymbolString symstr) {
         var first = new HashSet<Symbol>();
@@ -111,7 +125,7 @@ abstract class LLParser {
         return follow;
     }
 
-    public HashSet<Symbol> getSelect(final SymbolString symstr) {
+    private HashSet<Symbol> getSelect(final SymbolString symstr) {
         if (canProduceEmpty(symstr)) {
             final var rules = getProductionRules();
             var it = rules.keySet().stream().filter((statePair) -> rules.get(statePair).contains(symstr)).findFirst();
