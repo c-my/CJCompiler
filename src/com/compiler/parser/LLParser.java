@@ -2,6 +2,7 @@ package com.compiler.parser;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Stack;
 
 abstract class LLParser {
 
@@ -28,6 +29,21 @@ abstract class LLParser {
     }
 
     private Symbol endSym = new Symbol("#", Symbol.SymbolType.End);
+
+    public boolean Check(SymbolString str){
+        var form = getForm();
+        Stack<Symbol> symStack = new Stack<>();
+
+        str.add(endSym);
+        symStack.push(endSym);
+        symStack.push(getStartSymbol());
+
+        int index = 0;
+        while (index<str.size()){
+            var topSym = symStack.pop();
+        }
+        return false;
+    }
 
     public HashMap<Pair<Symbol, Symbol>, SymbolString> getForm() {
         HashMap<Pair<Symbol, Symbol>, SymbolString> form = new HashMap<>();

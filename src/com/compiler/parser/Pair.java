@@ -16,6 +16,14 @@ public class Pair<T, V> {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Pair) {
+            return first.equals(((Pair) obj).first) && second.equals(((Pair) obj).second);
+        }
+        return false;
+    }
+
+    @Override
     public int hashCode() {
         return first.hashCode() ^ second.hashCode();
     }
