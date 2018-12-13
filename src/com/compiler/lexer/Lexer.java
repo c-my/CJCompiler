@@ -103,6 +103,7 @@ public class Lexer extends Automaton {
         addTransitionRule(33, charSet.escape, 36);
         // 非数字转义
         addTransitionRule(36, charSet.escapeCharacter, 38);
+        addTransitionRule(36, charSet.singleQuotes, 38);
         addTransitionRule(38, charSet.singleQuotes, 35);
         // 8进制转义
         addTransitionRule(36, charSet.octNumebr, 39);
@@ -123,6 +124,77 @@ public class Lexer extends Automaton {
         addTransitionRule(33, charSet.singleQuotes, 37);
         addTransitionRule(37, charSet.empty, AcceptState.char_type);
 
+        // 字符串
+        addTransitionRule(0, charSet.doubleQuotes, 60);
+        addTransitionRule(60, charSet.alphabet, 61);
+        addTransitionRule(60, charSet.octNumebr, 61);
+        addTransitionRule(60, charSet.symbols, 61);
+        addTransitionRule(60, charSet.singleQuotes, 61);
+        addTransitionRule(61, charSet.alphabet, 61);
+        addTransitionRule(61, charSet.octNumebr, 61);
+        addTransitionRule(61, charSet.symbols, 61);
+        addTransitionRule(61, charSet.singleQuotes, 61);
+        addTransitionRule(61, charSet.doubleQuotes, 62);
+        addTransitionRule(62, charSet.empty, AcceptState.str);
+        // 转义部分
+        addTransitionRule(61, charSet.escape, 63);
+        addTransitionRule(60, charSet.escape, 63);
+        addTransitionRule(64, charSet.escape, 63);
+        // 非数字转义
+        addTransitionRule(63, charSet.escapeCharacter, 64);
+        addTransitionRule(63, charSet.doubleQuotes, 64);
+        addTransitionRule(64, charSet.doubleQuotes, 62);
+        // 非数字转义回归
+        addTransitionRule(64, charSet.alphabet, 61);
+        addTransitionRule(64, charSet.octNumebr, 61);
+        addTransitionRule(64, charSet.symbols, 61);
+        addTransitionRule(64, charSet.singleQuotes, 61);
+        // 8进制转义
+        addTransitionRule(63, charSet.octNumebr, 65);
+        addTransitionRule(65, charSet.doubleQuotes, 62);
+        addTransitionRule(65, charSet.octNumebr, 66);
+        addTransitionRule(65, charSet.doubleQuotes, 62);
+        addTransitionRule(65, charSet.escape, 63);
+        addTransitionRule(66, charSet.octNumebr, 67);
+        addTransitionRule(66, charSet.escape, 63);
+        addTransitionRule(67, charSet.doubleQuotes, 62);
+        addTransitionRule(67, charSet.escape, 63);
+
+        // 8进制回归
+        addTransitionRule(65, charSet.alphabet, 61);
+        addTransitionRule(65, charSet.octNumebr, 61);
+        addTransitionRule(65, charSet.symbols, 61);
+        addTransitionRule(65, charSet.singleQuotes, 61);
+        addTransitionRule(66, charSet.alphabet, 61);
+        addTransitionRule(66, charSet.octNumebr, 61);
+        addTransitionRule(66, charSet.symbols, 61);
+        addTransitionRule(66, charSet.singleQuotes, 61);
+        addTransitionRule(67, charSet.alphabet, 61);
+        addTransitionRule(67, charSet.octNumebr, 61);
+        addTransitionRule(67, charSet.symbols, 61);
+        addTransitionRule(67, charSet.singleQuotes, 61);
+
+        // 16进制
+        addTransitionRule(63, charSet.hexX, 68);
+        addTransitionRule(68, charSet.hexNumber, 69);
+        addTransitionRule(68, charSet.doubleQuotes, 62);
+        addTransitionRule(69, charSet.hexNumber, 70);
+        addTransitionRule(69, charSet.escape, 63);
+        addTransitionRule(70, charSet.escape, 63);
+        addTransitionRule(70, charSet.doubleQuotes, 62);
+
+        // 16进制回归
+        addTransitionRule(69, charSet.alphabet, 61);
+        addTransitionRule(69, charSet.octNumebr, 61);
+        addTransitionRule(69, charSet.symbols, 61);
+        addTransitionRule(69, charSet.singleQuotes, 61);
+        addTransitionRule(70, charSet.alphabet, 61);
+        addTransitionRule(70, charSet.octNumebr, 61);
+        addTransitionRule(70, charSet.symbols, 61);
+        addTransitionRule(70, charSet.singleQuotes, 61);
+        // 空串
+        addTransitionRule(60, charSet.doubleQuotes, 71);
+        addTransitionRule(71, charSet.empty, AcceptState.str);
 
     }
 

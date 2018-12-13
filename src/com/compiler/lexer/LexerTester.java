@@ -6,7 +6,7 @@ public class LexerTester {
     public LexerTester() {
         Lexer lxer = new Lexer();
         File f = new File("res/lexer.c");
-        String s = "''";
+        String s = "'\\\''";
         System.out.print(lxer.Run(s));
     }
 }
