@@ -9,7 +9,7 @@ public class Quaternary {
 
     }
 
-    enum operation {ADD, SUB, MUL, DIV, EQUAL}
+    public enum operation {ADD, SUB, MUL, DIV, EQUAL}
 
     operation opt;
     String opd1, opd2, opd3;
