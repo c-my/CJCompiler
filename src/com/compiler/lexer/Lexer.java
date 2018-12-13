@@ -79,6 +79,51 @@ public class Lexer extends Automaton {
         addTransitionRule(6, charSet.l, 14);
         addTransitionRule(6, charSet.f, 12);
 
+        // 标识符
+        addTransitionRule(0, charSet.alphabet, 31);
+        addTransitionRule(0, charSet.underLine, 31);
+        addTransitionRule(31, charSet.alphabet, 32);
+        addTransitionRule(31, charSet.decNumber, 32);
+        addTransitionRule(31, charSet.underLine, 32);
+        addTransitionRule(32, charSet.alphabet, 32);
+        addTransitionRule(32, charSet.decNumber, 32);
+        addTransitionRule(32, charSet.underLine, 32);
+        addTransitionRule(32, charSet.empty, AcceptState.identifier);
+
+        // 字符
+        addTransitionRule(0, charSet.singleQuotes, 33);
+        // 单字符 'x'
+        addTransitionRule(33, charSet.alphabet, 34);
+        addTransitionRule(33, charSet.octNumebr, 34);
+        addTransitionRule(33, charSet.symbols, 34);
+        addTransitionRule(33, charSet.doubleQuotes, 34);
+        addTransitionRule(34, charSet.singleQuotes, 35);
+        addTransitionRule(35, charSet.empty, AcceptState.char_type);
+        // 转义字符
+        addTransitionRule(33, charSet.escape, 36);
+        // 非数字转义
+        addTransitionRule(36, charSet.escapeCharacter, 38);
+        addTransitionRule(38, charSet.singleQuotes, 35);
+        // 8进制转义
+        addTransitionRule(36, charSet.octNumebr, 39);
+        addTransitionRule(39, charSet.octNumebr, 41);
+        addTransitionRule(39, charSet.singleQuotes, 35);
+        addTransitionRule(41, charSet.singleQuotes, 35);
+        addTransitionRule(41, charSet.octNumebr, 49);
+        addTransitionRule(49, charSet.singleQuotes, 34);
+
+        // 16进制转义
+        addTransitionRule(36, charSet.hexX, 50);
+        addTransitionRule(50, charSet.hexNumber, 51);
+        addTransitionRule(51, charSet.singleQuotes, 35);
+        addTransitionRule(51, charSet.hexNumber, 52);
+        addTransitionRule(52, charSet.singleQuotes, 35);
+
+        // 空字符 ''
+        addTransitionRule(33, charSet.singleQuotes, 37);
+        addTransitionRule(37, charSet.empty, AcceptState.char_type);
+
+
     }
 
     @Override
@@ -121,7 +166,8 @@ class ParserSet {
     HashSet<Character> dot = new HashSet<>();
     HashSet<Character> euler = new HashSet<>();
 
-    HashSet<Character> letters = new HashSet<>();
+    HashSet<Character> symbols = new HashSet<>();
+    HashSet<Character> lettersWithoutNum = new HashSet<>();
 
     HashSet<Character> empty = new HashSet<>();
 
@@ -130,6 +176,15 @@ class ParserSet {
     HashSet<Character> u = new HashSet<>();
     HashSet<Character> l = new HashSet<>();
     HashSet<Character> f = new HashSet<>();
+
+    HashSet<Character> underLine = new HashSet<>();
+    HashSet<Character> singleQuotes = new HashSet<>();
+    HashSet<Character> doubleQuotes = new HashSet<>();
+    HashSet<Character> escapeCharacter = new HashSet<>();
+    HashSet<Character> alphabet = new HashSet<>();
+
+    HashSet<Character> escape = new HashSet<>();
+
 
     private void initNumberSet() {
         zero.add('0');
@@ -149,11 +204,17 @@ class ParserSet {
     }
 
     private void initLetters() {
-        letters.addAll(Arrays.asList(' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3',
-                '4', '5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G',
-                'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[',
-                '\\', ']', '^', '_', '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-                'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~'));
+        symbols.addAll(Arrays.asList(' ', '!', '#', '$', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/',
+                ':', ';', '<', '=', '>', '?', '@', '[', ']', '^', '`', '{', '|', '}', '~'));
+//        lettersWithoutNum.addAll(Arrays.asList(' ', '!', '"', '#', '$', '%', '&', '\'', '(', ')', '*', '+', ',', '-',
+//                '.', '/', ':', ';', '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+//                'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', '\\', ']', '^', '_',
+//                '`', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+//                't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '|', '}', '~'));
+        alphabet.addAll(Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+                'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'));
+        escapeCharacter.addAll(Arrays.asList('a', 'b', 'f', 'n', 'r', 't', 'v'));
     }
 
     private void initEmpty() {
@@ -162,6 +223,10 @@ class ParserSet {
     private void initSymbol() {
         minus.add('-');
         add.add('+');
+        underLine.add('_');
+        singleQuotes.add('\'');
+        doubleQuotes.add('"');
+        escape.add('\\');
     }
 }
 
@@ -172,10 +237,13 @@ class AcceptState {
     static int dec = -4;
     static int float_type = -5;
     static int double_type = -6;
+    static int str = -7;
+    static int char_type = -8;
+    static int identifier = -9;
 
     static HashSet<Integer> getAcceptStateSet() {
         HashSet<Integer> set = new HashSet<>();
-        for (int i = -1; i >= -6; --i)
+        for (int i = -1; i >= -9; --i)
             set.add(i);
         return set;
     }
