@@ -1,5 +1,7 @@
 package com.compiler;
 
+import com.compiler.lexer.Lexer;
+import com.compiler.lexer.LexerTester;
 import com.compiler.parser.ParserTest;
 
 public class Main {
@@ -8,6 +10,8 @@ public class Main {
         // write your code here
         System.out.println("Hello world");
         ParserTest pt = new ParserTest();
-//        System.out.println(pt);
+        Lexer lxer = new Lexer();
+        LexerTester lt = new LexerTester();
+
     }
 }
