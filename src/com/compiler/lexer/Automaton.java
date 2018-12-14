@@ -1,5 +1,7 @@
 package com.compiler.lexer;
 
+import com.compiler.utils.Pair;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -20,7 +22,7 @@ abstract class Automaton {
     // 返回状态转移表
     abstract HashMap<StatePair, Integer> getTransitionForm();
 
-    public int Run(String str) {
+    public Pair<Integer, Integer> Run(String str) {
         var transitionForm = getTransitionForm();
         var acceptStates = getAcceptStates();
         int state = getStartState();
@@ -43,17 +45,17 @@ abstract class Automaton {
             }
         }
         if (acceptStates.contains(state))
-            return i;
+            return new Pair<>(i, state);
         else {
             var key = getEmptyTrans(state);
             if (!key.isEmpty()) {
                 state = transitionForm.get(key);
                 if (acceptStates.contains(state)) {
-                    return i;
+                    return new Pair<>(i, state);
                 }
             }
         }
-        return 0;
+        return new Pair<>(0,0);
     }
 
 

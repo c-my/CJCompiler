@@ -1,4 +1,4 @@
-package com.compiler.parser;
+package com.compiler.utils;
 
 public class Pair<T, V> {
     public Pair(T fir, V sec) {

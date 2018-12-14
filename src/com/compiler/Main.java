@@ -12,6 +12,6 @@ public class Main {
         ParserTest pt = new ParserTest();
         Lexer lxer = new Lexer();
         LexerTester lt = new LexerTester();
-
+        System.out.println(lt.getTokenList());
     }
 }
