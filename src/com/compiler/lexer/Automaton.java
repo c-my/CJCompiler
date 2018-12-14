@@ -56,6 +56,7 @@ abstract class Automaton {
         return 0;
     }
 
+
     private StatePair hasNextState(int current, char ch) {
         var transitionForm = getTransitionForm();
         var res = transitionForm.keySet().stream().filter(statePair -> statePair.current.equals(current) &&

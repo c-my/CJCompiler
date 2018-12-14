@@ -10,9 +10,39 @@ public class Lexer extends Automaton {
         super();
 
         initTransitionForm();
+        initKeywordSet();
+        initDelimiter();
+    }
+
+    public int CheckKeyword(String str) {
+        int len = str.length();
+        if (len < 2)
+            return 0;
+        for (int i = Math.min(8, len); i >= 2; --i) {
+            var subString = str.substring(0, i);
+            if (keywordSet.contains(subString)) {
+                return i;
+            }
+        }
+        return 0;
+    }
+
+    public int CheckDelimiter(String str) {
+        if (str.isEmpty())
+            return 0;
+        int len = str.length();
+        for (int i = Math.min(3, len); i >= 1; --i) {
+            var sub = str.substring(0, i);
+            if (delimiterSet.contains(sub))
+                return i;
+        }
+        return 0;
     }
 
     private HashMap<StatePair, Integer> transitionForm = new HashMap<>();
+    private HashSet<String> keywordSet = new HashSet<>();
+    private HashSet<String> delimiterSet = new HashSet<>();
+
     private int startState = 0;
 
     ParserSet charSet = new ParserSet();
@@ -85,6 +115,8 @@ public class Lexer extends Automaton {
         addTransitionRule(31, charSet.alphabet, 32);
         addTransitionRule(31, charSet.decNumber, 32);
         addTransitionRule(31, charSet.underLine, 32);
+        addTransitionRule(31, charSet.empty, AcceptState.identifier);
+
         addTransitionRule(32, charSet.alphabet, 32);
         addTransitionRule(32, charSet.decNumber, 32);
         addTransitionRule(32, charSet.underLine, 32);
@@ -196,6 +228,39 @@ public class Lexer extends Automaton {
         addTransitionRule(60, charSet.doubleQuotes, 71);
         addTransitionRule(71, charSet.empty, AcceptState.str);
 
+    }
+
+    private void initKeywordSet() {
+        keywordSet.addAll(Arrays.asList("auto",
+                "break",
+                "case", "char", "const", "continue",
+                "default",
+                "do", "double",
+                "else", "enum", "extern",
+                "float", "for",
+                "goto",
+                "if", "int",
+                "long",
+                "register", "return",
+                "short", "signed", "sizeof", "static", "struct", "switch",
+                "typedef",
+                "union", "unsigned",
+                "void", "volatile",
+                "while"));
+    }
+
+    private void initDelimiter() {
+        delimiterSet.addAll(Arrays.asList("==", "!=", "<=", "<", ">=", ">",         // 关系运算符
+                "+", "-", "*", "/", "%", "++", "--",                                // 算术运算符
+                "&&", "||", "!",                                                    // 逻辑运算符
+                "&", "|", "~", "^", "<<", ">>",                                     // 位操作运算符
+                "=", "+=", "-=", "*=", "/=", "%=", "&=", "|=", "^=", "<<=", ">>=",    // 赋值运算符
+                "?", ":",                                                           // 条件运算符
+                "{", "}", "[", "]", "(", ")",
+                ",",                                                                // 逗号运算符
+                ";",
+                "->", "."                                                           // 成员
+        ));
     }
 
     @Override
