@@ -3,7 +3,7 @@ package com.compiler.utils;
 import java.util.Arrays;
 import java.util.HashSet;
 
-public class CharSet {
+public class StringSet {
     final public static HashSet<String> KEYWORD = new HashSet<>(Arrays.asList(
             "auto",
             "break",

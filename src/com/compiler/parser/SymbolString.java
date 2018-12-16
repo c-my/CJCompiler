@@ -1,16 +1,28 @@
 package com.compiler.parser;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class SymbolString implements Iterable {
 
     SymbolString(List<Symbol> list, int i) {
         symString = new ArrayList<>(list);
         id = i;
+    }
+
+    /* 创建符号串
+    * @param: i 符号串的序号
+    *         symbols 符号
+    */
+    public static SymbolString getSymbolString(int i, String... symbols) {
+        ArrayList<Symbol> array = new ArrayList<>();
+        for (var sym : symbols) {
+            if (Character.isUpperCase(sym.charAt(0)))
+                array.add(new Symbol(sym, Symbol.SymbolType.Nonterminal));
+            else
+                array.add(new Symbol(sym, Symbol.SymbolType.Terminal));
+        }
+        return new SymbolString(array, i);
     }
 
     @Override

@@ -1,6 +1,6 @@
 int main(){
     int a=1;
-    double 1pi = 3.14;
+    double pi = 3.14; //123
     char[] s = "hello";
     char ch = 'c';
 }

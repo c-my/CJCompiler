@@ -1,5 +1,7 @@
 package com.compiler.lexer;
 
+import com.compiler.utils.CharSet;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -80,8 +82,7 @@ public class LexerTester {
     }
 
     private boolean isNumSuffix(Character ch) {
-        var charset = lexer.charSet;
-        return !(charset.alphabet.contains(ch) || ch == '.');
+        return !(CharSet.ALPHABET.contains(ch) || ch == '.');
     }
 
     private Token.tokenType parseType(int state) {
