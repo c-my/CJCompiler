@@ -3,7 +3,7 @@ package com.compiler.lexer;
 
 public class Token {
 
-    enum tokenType {INTEGER, FLOAT, DOUBLE, CHAR, STR, IDENTIFIER, DELIMITER, KEYWORD, NONE}
+    public enum tokenType {INTEGER, FLOAT, DOUBLE, CHAR, STR, IDENTIFIER, DELIMITER, KEYWORD, NONE}
 
     private String string = "";
     private tokenType type;
@@ -19,6 +19,10 @@ public class Token {
 
     public void setType(tokenType t) {
         type = t;
+    }
+
+    public tokenType getType() {
+        return type;
     }
 
     public double getDouble() {

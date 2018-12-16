@@ -5,15 +5,20 @@ import java.util.*;
 
 public class SymbolString implements Iterable {
 
-    SymbolString(List<Symbol> list, int i) {
+    public SymbolString(int i) {
+        symString = new ArrayList<>();
+        id = i;
+    }
+
+    public SymbolString(List<Symbol> list, int i) {
         symString = new ArrayList<>(list);
         id = i;
     }
 
     /* 创建符号串
-    * @param: i 符号串的序号
-    *         symbols 符号
-    */
+     * @param: i 符号串的序号
+     *         symbols 符号
+     */
     public static SymbolString getSymbolString(int i, String... symbols) {
         ArrayList<Symbol> array = new ArrayList<>();
         for (var sym : symbols) {
@@ -30,6 +35,7 @@ public class SymbolString implements Iterable {
         StringBuilder sb = new StringBuilder();
         for (Symbol s : symString) {
             sb.append(s.toString());
+            sb.append(" ");
         }
         return sb.toString();
     }
