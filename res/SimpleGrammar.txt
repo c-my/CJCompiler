@@ -1,0 +1,10 @@
+
+assignment_expression->IDENTIFIER assignment_operator G
+assignment_operator->=|MUL_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN|SUB_ASSIGN|LEFT_ASSIGN|RIGHT_ASSIGN|AND_ASSIGN|XOR_ASSIGN|OR_ASSIGN
+
+G->CONSTANT|IDENTIFIER|binary_operation
+
+binary_operation->IDENTIFIER binary_operator CONSTANT|IDENTIFIER binary_operator IDENTIFIER|CONSTANT binary_operator CONSTANT
+binary_operator->+|-|*|/|%|&|^|~||
+
+type_name->INT|FLOAT|DOUBLE|CHAR

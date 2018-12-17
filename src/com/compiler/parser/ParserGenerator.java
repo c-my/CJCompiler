@@ -13,6 +13,8 @@ public class ParserGenerator {
         HashMap<Symbol, HashSet<SymbolString>> productionRules = new HashMap<>();
         int index = 0;
         for (String line : lines) {
+            if (line.isEmpty())
+                continue;
             var strs = line.split("->");
             if (strs.length < 2)
                 return new HashMap<>();
@@ -25,23 +27,17 @@ public class ParserGenerator {
             var symstrs = right.split("\\|");
             for (var str : symstrs) {
                 SymbolString symbolString = new SymbolString(index++);
-                var syms = str.split(" ");
-                for (String sym : syms) {
-                    switch (sym.charAt(0)) {
-                        case 'N':
-                        case 'n':
-                            symbolString.add(new Symbol(sym, Symbol.SymbolType.Nonterminal));
-                            break;
-                        case 'T':
-                        case 't':
-                            symbolString.add(new Symbol(sym, Symbol.SymbolType.Terminal));
-                            break;
-                        case 'E':
-                        case 'e':
+                if (str.isEmpty())
+                    symbolString.add(new Symbol("|", Symbol.SymbolType.Terminal));
+                else {
+                    var syms = str.split(" ");
+                    for (String sym : syms) {
+                        if (sym.equals("$"))
                             symbolString.add(new Symbol(sym, Symbol.SymbolType.Empty));
-                            break;
-                        default:
-                            return new HashMap<>();
+                        else if (ParserTest.isTerminal(sym))
+                            symbolString.add(new Symbol(sym, Symbol.SymbolType.Terminal));
+                        else
+                            symbolString.add(new Symbol(sym, Symbol.SymbolType.Nonterminal));
                     }
                 }
                 symbolStrings.add(symbolString);
@@ -56,10 +52,12 @@ public class ParserGenerator {
         for (Token token : tokenList) {
             switch (token.getType()) {
                 case STR:
-                    symbolList.add(new Symbol("STRING_LITERAL", Symbol.SymbolType.Terminal, token.getStr(), token.getType()));
+                    symbolList.add(new Symbol("STRING_LITERAL", Symbol.SymbolType.Terminal,
+                            token.getStr(), token.getType()));
                     break;
                 case IDENTIFIER:
-                    symbolList.add(new Symbol("IDENTIFIER", Symbol.SymbolType.Terminal));
+                    symbolList.add(new Symbol("IDENTIFIER", Symbol.SymbolType.Terminal,
+                            token.getStr(), token.getType()));
                     break;
                 case DELIMITER:
                     switch (token.getStr()) {

@@ -4,22 +4,33 @@ import com.compiler.lexer.Lexer;
 import com.compiler.lexer.LexerTester;
 import com.compiler.parser.ParserGenerator;
 import com.compiler.parser.ParserTest;
+import com.compiler.parser.Test;
+import com.compiler.utils.FileReader;
 import com.compiler.utils.Show;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        // write your code here
-        System.out.println("Hello world");
-        ParserTest pt = new ParserTest();
-        Lexer lxer = new Lexer();
+
         LexerTester lt = new LexerTester();
-        System.out.println(ParserGenerator.ReadTokenlist(lt.getTokenList()));
-//        ArrayList<String> lines = new ArrayList<>();
-//        lines.add("A->tb nB|nC");
-//        lines.add("B->tc|ee");
+        var tokenList = lt.getTokenList();
+        System.out.println(tokenList);
+
+        System.out.println("=========");
+
+        ParserTest pt = new ParserTest();
+        var symbolString = ParserGenerator.ReadTokenlist(tokenList);
+        System.out.println(symbolString);
+
+        boolean result = pt.Check(symbolString);
+        System.out.println(result);
+
+//        List<String> lines = FileReader.getLines("res/SimpleGrammar.txt");
+//////        lines.add("primary_expression->IDENTIFIER|CONSTANT|STRING_LITERAL|( expression )");
+//////        lines.add("B->tc|ee");
 //        Show.printRules(ParserGenerator.Read(lines));
 
     }

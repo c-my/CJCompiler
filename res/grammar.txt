@@ -1,0 +1,64 @@
+assignment_operator->=|MUL_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN|SUB_ASSIGN|LEFT_ASSIGN|RIGHT_ASSIGN|AND_ASSIGN|XOR_ASSIGN|OR_ASSIGN
+unary_operator->&|*|+|-|~|!
+
+expression->assignment_expression express
+express->, assignment_expression express|$
+
+conexpress->? expression : conditional_expression|$
+
+
+lorexpress->OR_OP logical_and_expression lorexpress|$
+logical_or_expression->logical_and_expression lorexpress
+Landpress->AND_OP inclusive_or_expression landexpress|$
+logical_and_expression->inclusive_or_expression landexpress
+inorexpress->| exclusive_or_expression inorexpress|$
+inclusive_or_expression->exclusive_or_expression inorexpress
+exorpress->^ and_expression exorpress|$
+exclusive_or_expression->and_expression exorexpress
+andexpress->& equality_expression andexpress|$
+and_expression->equality_expression andexpress
+eqexpress->EQ_OP relational_expression eqexpress|NE_OP relational_expression eqexpress|$
+equality_expression->relational_expression eqexpress
+
+relexpress->< shift_expression relexpress|> shift_expression relexpress|LE_OP shift_expression relexpress|GE_OP shift_expression relexpress|$
+relational_expression->shift_expression relexpress|RIGHT_OP additive_expression shexpress|$
+shift_expression->additive_expression shexpress
+addexpress->+ multiplicative_expression addexpress|- multiplicative_expression addexpress|$
+additive_expression->multiplicative_expression addexpress
+mulexpress->* cast_expression mulexpress|/ cast_expression mulexpress|% cast_expression mulexpress|$
+multiplicative_expression->cast_expression mulexpress
+cast_expression->unary_expression|< type_name > cast_expression
+typelength->unary_expression|type_name
+unary_expression->postfix_expression|INC_OP unary_expression|DEC_OP unary_expression|unary_operator cast_expression|SIZEOF ( typelength )
+arexpressls->, assignment_expression arexpressls|$
+argument_expression_list->assignment_expression arexpressls
+posexpress->[ expression ] posexpress|( ) posexpress|( argument_expression_list ) posexpress|. IDENTIFIER posexpress|PTR_OP IDENTIFIER posexpress|INC_OP posexpress|DEC_OP posexpress|$
+postfix_expression->primary_expression posexpress
+primary_expression->IDENTIFIER|CONSTANT|STRING_LITERAL|( expression )
+
+
+assignment_expression->conditional_expression|unary_expression assignment_operator assignment_expression
+conditional_expression->logical_or_expression conexpress
+
+constant_expression->conditional_expression
+
+
+type_name->specifier_qualifier_list abstract_dec
+abstract_dec->abstract_declarator|$
+abstract_declarator->pointer direct_abs_dec|direct_abstract_declarator
+direct_abs_dec->direct_abstract_declarator
+direct_abstract_declarator->( dir_ypos dm|[ dir_fpos dm
+dm->dir_ab_decpos dm
+dir_ypos->abstract_declarator )|)|parameter_type_list )
+dir_fos->]|constant_expression ]
+dir_ab_decpos->[ fdab_pos|( ydab_pos
+fdab_pos->]|constant_expression ]
+ydab_pos->)|parameter_type_list )
+initializer->assignment_expression|{ initializer_list inzerls
+inzerls->}|, }
+initializer_list->initializer initial_ls
+initial_ls->, initializer initial_ls|$
+
+type_specifier->VOID|CHAR|SHORT|INT|LONG|FLOAT|DOUBLE|SIGNED|UNSIGNED|struct_or_union_specifier|enum_specifier|TYPE_NAME
+
+

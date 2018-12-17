@@ -36,9 +36,11 @@ public class LexerTester {
                 // 检查关键字
                 index = lexer.CheckKeyword(subLine);
                 totalIndex += index;
-                if (index == subLine.length())
+                if (index == subLine.length()) {
+                    tokenList.add(new Token(subLine.substring(0, index), Token.tokenType.KEYWORD));
+                    subLine = subLine.substring(index);
                     break;
-                else if (index != 0 && !isKeywordSuffix(subLine.charAt(index))) {
+                } else if (index != 0 && !isKeywordSuffix(subLine.charAt(index))) {
                     // 出错
                     System.out.println("Wrong keyword");
                     break;

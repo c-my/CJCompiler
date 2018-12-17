@@ -1,4 +1,4 @@
-package com.compiler.lexer;
+package com.compiler.parser;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -6,6 +6,7 @@ public class Symbol {
 
     Symbol() {
         sType = SymbolType.Terminal;
+        id = "";
     }
 
 
@@ -38,6 +39,10 @@ public class Symbol {
         return value;
     }
 
+    public Token.tokenType getValueType() {
+        return valueType;
+    }
+
     private String id;
     private SymbolType sType;
     private String value;
@@ -46,6 +51,8 @@ public class Symbol {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        if (sType == SymbolType.Nonterminal)
+            sb.append("[N]");
         sb.append(id);
         if (valueType != Token.tokenType.NONE) {
             sb.append("(");
