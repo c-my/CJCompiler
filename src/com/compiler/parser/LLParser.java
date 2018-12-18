@@ -133,10 +133,15 @@ abstract class LLParser {
                             Symbol opd2 = semStack.pop();
                             Symbol opt = semStack.pop();
                             Symbol opd1 = semStack.pop();
-                            Tables.quaternaryList.add(new Quaternary(opt.getId(), opd1.getValue(), opd2.getValue(), "t" + Integer.toString(tmpVariableIndex)));
-                            Symbol tmp = new Symbol(opd2.getId(), Symbol.SymbolType.Terminal, "t" + Integer.toString(tmpVariableIndex), Token.tokenType.DOUBLE);
-                            semStack.push(tmp);
-                            ++tmpVariableIndex;
+                            if(!opt.getId().equals("=")) {
+                                Tables.quaternaryList.add(new Quaternary(opt.getId(), opd1.getValue(), opd2.getValue(), "t" + Integer.toString(tmpVariableIndex)));
+                                Symbol tmp = new Symbol(opd2.getId(), Symbol.SymbolType.Terminal, "t" + Integer.toString(tmpVariableIndex), Token.tokenType.DOUBLE);
+                                semStack.push(tmp);
+                                ++tmpVariableIndex;
+                            }
+                            else{
+                                Tables.quaternaryList.add(new Quaternary(opt.getId(), opd2.getValue(), "",opd1.getValue()));
+                            }
                             break;
                     }
                     continue;

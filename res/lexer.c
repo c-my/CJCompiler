@@ -1,5 +1,7 @@
 int a = 13;
 double c;
-int b = a;
+int b;
 
-a<<23-3*(2-4);
+if(a==1){
+a=a+1;
+}

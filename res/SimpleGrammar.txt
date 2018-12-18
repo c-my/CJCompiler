@@ -1,4 +1,4 @@
-program->declear program|calculation ; program|$
+program->declear program|calculation ; program|condition program|$
 
 
 declear->type_name PUSH IDENTIFIER PUSH declear1
@@ -7,8 +7,12 @@ declear2->CONSTANT PUSH FILL_I ;|IDENTIFIER PUSH FILL_I ;
 
 assignment->IDENTIFIER = CONSTANT
 
-calculation->fourth calculation1
-calculation1->fourth_operator PUSH fourth GEQ calculation1|$
+condition->IF calculation { program }
+
+calculation->fifth calculation1
+calculation1->fifth_operator PUSH fifth GEQ calculation1 |$
+fifth->fourth fifth1
+fifth1->fourth_operator PUSH fourth GEQ fifth1|$
 fourth->third fourth1
 fourth1->third_operator PUSH third GEQ fourth1|$
 third->second third1
@@ -24,3 +28,4 @@ first_operator->!|~
 second_operator->*|/|%
 third_operator->+|-|<<|>>
 fourth_operator->&|^||
+fifth_operator->=|EQ_OP|NE_OP
