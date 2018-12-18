@@ -130,16 +130,23 @@ abstract class LLParser {
                             semStack.push(lastTopSym);
                             break;
                         case GEQ:
-                            Symbol opd2 = symStack.pop();
-                            Symbol opt = symStack.pop();
-                            Symbol opd1 = symStack.pop();
+                            Symbol opd2 = semStack.pop();
+                            Symbol opt = semStack.pop();
+                            Symbol opd1 = semStack.pop();
                             Tables.quaternaryList.add(new Quaternary(opt.getId(), opd1.getValue(), opd2.getValue(), "t" + Integer.toString(tmpVariableIndex)));
+                            Symbol tmp = new Symbol(opd2.getId(), Symbol.SymbolType.Terminal, "t" + Integer.toString(tmpVariableIndex), Token.tokenType.DOUBLE);
+                            semStack.push(tmp);
+                            ++tmpVariableIndex;
                             break;
                     }
                     continue;
                 case Terminal:
                 case Empty:
                     if (!topSym.equals(str.get(index))) {
+                        System.out.print("top is:");
+                        System.out.print(topSym);
+                        System.out.println(" not " + str.get(index));
+
                         return false;
                     }
                     lastTopSym = str.get(index);

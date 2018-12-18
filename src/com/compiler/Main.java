@@ -2,10 +2,7 @@ package com.compiler;
 
 import com.compiler.lexer.Lexer;
 import com.compiler.lexer.LexerTester;
-import com.compiler.parser.ParserGenerator;
-import com.compiler.parser.ParserTest;
-import com.compiler.parser.Tables;
-import com.compiler.parser.Test;
+import com.compiler.parser.*;
 import com.compiler.utils.FileReader;
 import com.compiler.utils.Show;
 
@@ -30,6 +27,7 @@ public class Main {
         System.out.println(result);
 
         System.out.println(Tables.SymbolTable);
+        System.out.println(Tables.quaternaryList);
 
 //        List<String> lines = FileReader.getLines("res/SimpleGrammar.txt");
 //////        lines.add("primary_expression->IDENTIFIER|CONSTANT|STRING_LITERAL|( expression )");
