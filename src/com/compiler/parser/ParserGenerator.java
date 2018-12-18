@@ -2,6 +2,7 @@ package com.compiler.parser;
 
 import com.compiler.lexer.Token;
 
+import javax.lang.model.util.ElementScanner6;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,6 +35,14 @@ public class ParserGenerator {
                     for (String sym : syms) {
                         if (sym.equals("$"))
                             symbolString.add(new Symbol(sym, Symbol.SymbolType.Empty));
+                        else if (sym.equals("PUSH"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionTYpe.PUSH));
+                        else if (sym.equals("FILL"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionTYpe.FILL));
+                        else if (sym.equals("FILL_I"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionTYpe.FILL_I));
+                        else if (sym.equals("GEQ"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionTYpe.GEQ));
                         else if (ParserTest.isTerminal(sym))
                             symbolString.add(new Symbol(sym, Symbol.SymbolType.Terminal));
                         else
@@ -118,76 +127,11 @@ public class ParserGenerator {
                         case "!=":
                             symbolList.add(new Symbol("NE_OP", Symbol.SymbolType.Terminal));
                             break;
-                        case ";":
-                            symbolList.add(new Symbol(";", Symbol.SymbolType.Terminal));
-                            break;
-                        case "{":
-                            symbolList.add(new Symbol("{", Symbol.SymbolType.Terminal));
-                            break;
-                        case "}":
-                            symbolList.add(new Symbol("}", Symbol.SymbolType.Terminal));
-                            break;
-                        case "(":
-                            symbolList.add(new Symbol("(", Symbol.SymbolType.Terminal));
-                            break;
-                        case ")":
-                            symbolList.add(new Symbol(")", Symbol.SymbolType.Terminal));
-                            break;
-                        case "[":
-                            symbolList.add(new Symbol("[", Symbol.SymbolType.Terminal));
-                            break;
-                        case "]":
-                            symbolList.add(new Symbol("]", Symbol.SymbolType.Terminal));
-                            break;
-                        case ",":
-                            symbolList.add(new Symbol(",", Symbol.SymbolType.Terminal));
-                            break;
-                        case ".":
-                            symbolList.add(new Symbol(".", Symbol.SymbolType.Terminal));
-                            break;
-                        case "&":
-                            symbolList.add(new Symbol("&", Symbol.SymbolType.Terminal));
-                            break;
-                        case "!":
-                            symbolList.add(new Symbol("!", Symbol.SymbolType.Terminal));
-                            break;
-                        case "~":
-                            symbolList.add(new Symbol("~", Symbol.SymbolType.Terminal));
-                            break;
                         case "->":
                             symbolList.add(new Symbol("PTR_OP", Symbol.SymbolType.Terminal));
                             break;
-                        case "+":
-                            symbolList.add(new Symbol("+", Symbol.SymbolType.Terminal));
-                            break;
-                        case "-":
-                            symbolList.add(new Symbol("-", Symbol.SymbolType.Terminal));
-                            break;
-                        case "*":
-                            symbolList.add(new Symbol("*", Symbol.SymbolType.Terminal));
-                            break;
-                        case "/":
-                            symbolList.add(new Symbol("/", Symbol.SymbolType.Terminal));
-                            break;
-                        case "%":
-                            symbolList.add(new Symbol("%", Symbol.SymbolType.Terminal));
-                            break;
-                        case "<":
-                            symbolList.add(new Symbol("<", Symbol.SymbolType.Terminal));
-                            break;
-                        case ">":
-                            symbolList.add(new Symbol(">", Symbol.SymbolType.Terminal));
-                            break;
-                        case "^":
-                            symbolList.add(new Symbol("^", Symbol.SymbolType.Terminal));
-                            break;
-                        case "|":
-                            symbolList.add(new Symbol("|", Symbol.SymbolType.Terminal));
-                            break;
-                        case "?":
-                            symbolList.add(new Symbol("?", Symbol.SymbolType.Terminal));
-                            break;
                         default:
+                            symbolList.add(new Symbol(token.getStr(), Symbol.SymbolType.Terminal));
                             break;
 
                     }

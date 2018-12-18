@@ -9,12 +9,17 @@ public class Quaternary {
 
     }
 
-    public enum operation {ADD, SUB, MUL, DIV, EQUAL}
+    public Quaternary(String opt, String opd1, String opd2, String opd3) {
+        this.opd1 = opd1;
+        this.opd2 = opd2;
+        this.opd3 = opd3;
+        this.opt = opt;
+    }
 
-    operation opt;
+    String opt;
     String opd1, opd2, opd3;
 
-    public operation getOpt() {
+    public String getOpt() {
         return opt;
     }
 

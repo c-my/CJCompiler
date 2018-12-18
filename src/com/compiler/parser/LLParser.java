@@ -1,7 +1,9 @@
 package com.compiler.parser;
 
+import com.compiler.lexer.Token;
 import com.compiler.utils.Pair;
 
+import javax.swing.plaf.synth.SynthButtonUI;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,41 +54,117 @@ abstract class LLParser {
     public boolean Check(ArrayList<Symbol> str) {
         var form = getForm();
         Stack<Symbol> symStack = new Stack<>();
+        Stack<Symbol> semStack = new Stack<>();
 
         str.add(endSym);
         symStack.push(endSym);
         symStack.push(getStartSymbol());
-
+        Symbol topSym = new Symbol();
         int index = 0;
+        int tmpVariableIndex = 0;
+        Symbol lastTopSym = new Symbol();
         while (index < str.size()) {
-            var topSym = symStack.pop();
+            topSym = symStack.pop();
             switch (topSym.getType()) {
+                case Action:
+                    switch (topSym.getaType()) {
+                        case FILL:
+                            Symbol name = semStack.pop();// 只能提供名字
+                            Symbol type = semStack.pop();// 提供类型名
+                            Token.tokenType tokenType = Token.tokenType.NONE;
+                            switch (type.getId().toLowerCase()) {
+                                case "int":
+                                    tokenType = Token.tokenType.INTEGER;
+                                    break;
+                                case "double":
+                                    tokenType = Token.tokenType.DOUBLE;
+                                    break;
+                                case "float":
+                                    tokenType = Token.tokenType.FLOAT;
+                                    break;
+                                case "char":
+                                    tokenType = Token.tokenType.CHAR;
+                                    break;
+                            }
+                            Tables.SymbolTable.add(new SymbolTableItem(name.getValue(), tokenType, SymbolTableItem.cat_enum.VARIABLE, ""));
+                            break;
+                        case FILL_I:
+                            Symbol i_initVal = semStack.pop();
+                            Symbol i_name = semStack.pop();// 只能提供名字
+                            Symbol i_type = semStack.pop();// 提供类型名
+                            Token.tokenType i_tokenType = Token.tokenType.NONE;
+                            switch (i_type.getId().toLowerCase()) {
+                                case "int":
+                                    i_tokenType = Token.tokenType.INTEGER;
+                                    break;
+                                case "double":
+                                    i_tokenType = Token.tokenType.DOUBLE;
+                                    break;
+                                case "float":
+                                    i_tokenType = Token.tokenType.FLOAT;
+                                    break;
+                                case "char":
+                                    i_tokenType = Token.tokenType.CHAR;
+                                    break;
+                            }
+                            if (i_initVal.getId().equals("CONSTANT"))
+                                Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, i_initVal.getValue()));
+                            else if (i_initVal.getId().equals("IDENTIFIER")) {
+                                //在符号表中找到这个标识符的值
+                                switch (Tables.getType(i_initVal.getValue())) {
+                                    case INTEGER:
+                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Integer.toString(Tables.getIntValue(i_initVal.getValue()))));
+                                        break;
+                                    case FLOAT:
+                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Double.toString(Tables.getDoubleValue(i_initVal.getValue()))));
+                                        break;
+                                    case CHAR:
+                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Double.toString(Tables.getCharValue(i_initVal.getValue()))));
+                                        break;
+                                    case NULL:
+                                        break;
+                                }
+                            }
+                            break;
+                        case PUSH:
+                            semStack.push(lastTopSym);
+                            break;
+                        case GEQ:
+                            Symbol opd2 = symStack.pop();
+                            Symbol opt = symStack.pop();
+                            Symbol opd1 = symStack.pop();
+                            Tables.quaternaryList.add(new Quaternary(opt.getId(), opd1.getValue(), opd2.getValue(), "t" + Integer.toString(tmpVariableIndex)));
+                            break;
+                    }
+                    continue;
                 case Terminal:
                 case Empty:
                     if (!topSym.equals(str.get(index))) {
-
                         return false;
                     }
+                    lastTopSym = str.get(index);
                     ++index;
                     break;
                 case Nonterminal:
                     final int index_tmp = index;
-                    var res = form.keySet().stream().filter(pair -> pair.first.equals(topSym) && pair.second.equals(str.get(index_tmp))).findFirst();
+                    final Symbol topSym_tmp = topSym;
+                    var res = form.keySet().stream().filter(pair -> pair.first.equals(topSym_tmp) && pair.second.equals(str.get(index_tmp))).findFirst();
                     if (res.isEmpty()) {
-                        System.out.print(topSym);
-                        System.out.print("::");
-                        System.out.println(str.get(index));
-                        System.out.print("Stack: ");
-                        System.out.println(symStack);
+//                        System.out.print(topSym);
+//                        System.out.print("::");
+//                        System.out.println(str.get(index));
+//                        System.out.print("Stack: ");
+//                        System.out.println(symStack);
                         return false;
                     }
                     var symStr = form.get(res.get());
-                    System.out.print("Stack: "+symStack+"  ");
-                    System.out.print(topSym + "->");
-                    System.out.println(symStr);
+//                    System.out.print("Stack: " + symStack + "  ");
+//                    System.out.print(topSym + "->");
+//                    System.out.println(symStr);
                     for (int i = symStr.size() - 1; i >= 0; --i) {
-                        if (symStr.get(i).getType() != Symbol.SymbolType.Empty)
+                        if (symStr.get(i).getType() != Symbol.SymbolType.Empty) {
                             symStack.push(symStr.get(i));
+                        }
                     }
                     break;
                 case End:

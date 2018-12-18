@@ -15,7 +15,7 @@ public class ParserTest extends LLParser {
     }
 
     private HashMap<Symbol, HashSet<SymbolString>> rules = new HashMap<>();
-    private Symbol startSym = new Symbol("S", Symbol.SymbolType.Nonterminal);
+    private Symbol startSym = new Symbol("program", Symbol.SymbolType.Nonterminal);
 
     private void init() {
         initTerminalSymbols();

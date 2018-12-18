@@ -6,7 +6,7 @@ public class Symbol {
 
     Symbol() {
         sType = SymbolType.Terminal;
-        id = "";
+//        id = "";
     }
 
 
@@ -23,8 +23,21 @@ public class Symbol {
         this.valueType = type;
     }
 
+    Symbol(final String name, ActionTYpe at) {
+        id = name;
+        aType = at;
+        sType = SymbolType.Action;
+        this.value = "";
+    }
+
     enum SymbolType {
         Terminal, Nonterminal, Empty, End, Action
+    }
+
+    enum ActionTYpe {
+        PUSH, FILL
+        , FILL_I //有初值的填表
+        , GEQ    //生成运算四元式
     }
 
     public String getId() {
@@ -33,6 +46,10 @@ public class Symbol {
 
     public SymbolType getType() {
         return sType;
+    }
+
+    public ActionTYpe getaType() {
+        return aType;
     }
 
     public String getValue() {
@@ -45,6 +62,7 @@ public class Symbol {
 
     private String id;
     private SymbolType sType;
+    private ActionTYpe aType;
     private String value;
     private Token.tokenType valueType = Token.tokenType.NONE;
 

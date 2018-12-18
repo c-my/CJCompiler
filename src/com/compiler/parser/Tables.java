@@ -1,5 +1,7 @@
 package com.compiler.parser;
 
+import com.compiler.lexer.Token;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -18,6 +20,63 @@ public class Tables {
     public static ArrayList<Integer> integerList = new ArrayList<>();
     public static ArrayList<Double> doubleList = new ArrayList<>();
     public static ArrayList<Character> charList = new ArrayList<>();
+
+    //四元式表
+    public static ArrayList<Quaternary> quaternaryList = new ArrayList<>();
+
+
+    public static int getIntValue(String name) {
+        var first = SymbolTable.stream().filter(item -> item.getName().equals(name)).findFirst();
+        if (first.isPresent()) {
+            var item = first.get();
+            if (typeTabel.get(item.getTyp()).getType() == TypeLabelItem.type.INTEGER)
+                return integerList.get(item.getAddr());
+        }
+        return Integer.MAX_VALUE;
+    }
+
+    public static double getDoubleValue(String name) {
+        var first = SymbolTable.stream().filter(item -> item.getName().equals(name)).findFirst();
+        if (first.isPresent()) {
+            var item = first.get();
+            if (typeTabel.get(item.getTyp()).getType() == TypeLabelItem.type.FLOAT)
+                return doubleList.get(item.getAddr());
+        }
+        return Double.MAX_VALUE;
+    }
+
+    public static char getCharValue(String name) {
+        var first = SymbolTable.stream().filter(item -> item.getName().equals(name)).findFirst();
+        if (first.isPresent()) {
+            var item = first.get();
+            if (typeTabel.get(item.getTyp()).getType() == TypeLabelItem.type.CHAR) {
+                return charList.get(item.getAddr());
+            }
+        }
+        return ' ';
+    }
+
+    public static TypeLabelItem.type getType(String name) {
+        var first = SymbolTable.stream().filter(item -> item.getName().equals(name)).findFirst();
+        if (first.isPresent()) {
+            var item = first.get();
+            return typeTabel.get(item.getTyp()).getType();
+        }
+        return TypeLabelItem.type.NULL;
+    }
+
+    public static int getSymbolCount(String name, TypeLabelItem.type type) {
+        int index = 0;
+        for (SymbolTableItem item : SymbolTable) {
+            if (typeTabel.get(item.getTyp()).getType() == type) {
+                if (item.getName().equals(name)) {
+                    return index;
+                }
+                ++index;
+            }
+        }
+        return index;
+    }
 
 }
 
@@ -38,7 +97,7 @@ class TypeLabelItem {
         }
     }
 
-    public enum type {INTEGER, FLOAT, CHAR, ARRAY, STRUCT}
+    public enum type {INTEGER, FLOAT, CHAR, ARRAY, STRUCT, NULL}
 
     private type t;
     private int tpoint;
@@ -54,24 +113,33 @@ class TypeLabelItem {
 
 // 符号总表中的表项
 class SymbolTableItem {
-    public SymbolTableItem(Symbol sym, cat_enum cat) {
-        this.name = sym.getId();
+    public SymbolTableItem(String name, Token.tokenType tokenType, cat_enum cat, String initVal) {
+        this.name = name;
         this.cat = cat;
-        switch (sym.getValueType()) {
+        switch (tokenType) {
             case CHAR:
                 typ = 2;
-                Tables.charList.add(sym.getValue().charAt(1));
+                if (initVal.isEmpty())
+                    Tables.charList.add(' ');
+                else
+                    Tables.charList.add(initVal.charAt(1));
                 addr = Tables.charList.size() - 1;
                 break;
             case FLOAT:
             case DOUBLE:
                 typ = 1;
-                Tables.doubleList.add(Double.parseDouble(sym.getValue()));
+                if (initVal.isEmpty())
+                    Tables.doubleList.add(0.0);
+                else
+                    Tables.doubleList.add(Double.parseDouble(initVal));
                 addr = Tables.doubleList.size() - 1;
                 break;
             case INTEGER:
                 typ = 0;
-                Tables.integerList.add(Integer.parseInt(sym.getValue()));
+                if (initVal.isEmpty())
+                    Tables.integerList.add(0);
+                else
+                    Tables.integerList.add(Integer.parseInt(initVal));
                 addr = Tables.integerList.size() - 1;
                 break;
         }
@@ -98,6 +166,28 @@ class SymbolTableItem {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("name: ");
+        sb.append(name);
+        sb.append("  type: ");
+        sb.append(typ);
+        sb.append("  value: ");
+        switch (Tables.typeTabel.get(typ).getType()) {
+            case INTEGER:
+                sb.append(Tables.integerList.get(addr));
+                break;
+            case FLOAT:
+                sb.append(Tables.doubleList.get(addr));
+                break;
+            case CHAR:
+                sb.append(Tables.charList.get(addr));
+                break;
+        }
+        return sb.toString();
     }
 }
 

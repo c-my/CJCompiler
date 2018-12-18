@@ -1,10 +1,26 @@
+program->declear program|calculation ; program|$
 
-assignment_expression->IDENTIFIER assignment_operator G
-assignment_operator->=|MUL_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|ADD_ASSIGN|SUB_ASSIGN|LEFT_ASSIGN|RIGHT_ASSIGN|AND_ASSIGN|XOR_ASSIGN|OR_ASSIGN
 
-G->CONSTANT|IDENTIFIER|binary_operation
+declear->type_name PUSH IDENTIFIER PUSH declear1
+declear1->; FILL|= declear2
+declear2->CONSTANT PUSH FILL_I ;|IDENTIFIER PUSH FILL_I ;
 
-binary_operation->IDENTIFIER binary_operator CONSTANT|IDENTIFIER binary_operator IDENTIFIER|CONSTANT binary_operator CONSTANT
-binary_operator->+|-|*|/|%|&|^|~||
+assignment->IDENTIFIER = CONSTANT
+
+calculation->fourth calculation1
+calculation1->fourth_operator PUSH fourth GEQ calculation1|$
+fourth->third fourth1
+fourth1->third_operator PUSH third GEQ fourth1|$
+third->second third1
+third1->second_operator PUSH second GEQ third1|$
+second->first second1
+second1->first_operator PUSH first GEQ second1|$
+first->IDENTIFIER PUSH|CONSTANT PUSH|( calculation )
 
 type_name->INT|FLOAT|DOUBLE|CHAR
+binary_operator->*|+|-|/|%|&|~|^||
+
+first_operator->!|~
+second_operator->*|/|%
+third_operator->+|-|<<|>>
+fourth_operator->&|^||
