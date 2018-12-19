@@ -39,6 +39,8 @@ public class Symbol {
         , GEQ    //生成运算四元式
         , GEQ_IF
         , END_IF
+        , GEQ_WHILE
+        , END_WHILE
     }
 
     public String getId() {

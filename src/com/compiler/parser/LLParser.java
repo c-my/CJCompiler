@@ -150,6 +150,13 @@ abstract class LLParser {
                         case END_IF:
                             Tables.quaternaryList.add(new Quaternary("END_IF", "", "", ""));
                             break;
+                        case GEQ_WHILE:
+                            Symbol cycleSym = semStack.pop();
+                            Tables.quaternaryList.add(new Quaternary("while", "", "", cycleSym.getValue()));
+                            break;
+                        case END_WHILE:
+                            Tables.quaternaryList.add(new Quaternary("END_WHILE", "", "", ""));
+                            break;
                     }
                     continue;
                 case Terminal:

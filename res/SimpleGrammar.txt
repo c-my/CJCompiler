@@ -1,4 +1,4 @@
-program->declear program|calculation ; program|condition program|$
+program->declear program|calculation ; program|condition program|cycle program|$
 
 
 declear->type_name PUSH IDENTIFIER PUSH declear1
@@ -9,6 +9,10 @@ assignment->IDENTIFIER = CONSTANT
 
 condition->IF ( calculation ) GEQ_IF { program } END_IF condition_else
 condition_else->ELSE { program }|$
+
+cycle->WHILE ( calculation ) GEQ_WHILE { program } END_WHILE
+
+
 
 calculation->fifth calculation1
 calculation1->fifth_operator PUSH fifth GEQ calculation1 |$
