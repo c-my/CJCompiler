@@ -56,6 +56,7 @@ public class Tables {
         return ' ';
     }
 
+    // 在符号表中查找名为name的符号并返回其类型，若符号表中不存在该符号则返回NULL类型
     public static TypeLabelItem.type getType(String name) {
         var first = SymbolTable.stream().filter(item -> item.getName().equals(name)).findFirst();
         if (first.isPresent()) {
@@ -65,6 +66,7 @@ public class Tables {
         return TypeLabelItem.type.NULL;
     }
 
+    //返回 名为name的符号 是 符号表中第几个 类型为type的 符号
     public static int getSymbolCount(String name, TypeLabelItem.type type) {
         int index = 0;
         for (SymbolTableItem item : SymbolTable) {

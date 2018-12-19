@@ -37,10 +37,7 @@ public class Symbol {
     enum ActionType {
         PUSH, FILL, FILL_I //有初值的填表
         , GEQ    //生成运算四元式
-        , GEQ_IF
-        , END_IF
-        , GEQ_WHILE
-        , END_WHILE
+        , GEQ_IF, END_IF, BEGIN_ELSE, GEQ_WHILE, END_WHILE
     }
 
     public String getId() {
@@ -74,6 +71,8 @@ public class Symbol {
         StringBuilder sb = new StringBuilder();
         if (sType == SymbolType.Nonterminal)
             sb.append("[N]");
+        else if (sType == SymbolType.Action)
+            sb.append("[AC]");
         sb.append(id);
         if (valueType != Token.tokenType.NONE) {
             sb.append("(");

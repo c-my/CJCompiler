@@ -1,14 +1,21 @@
-program->declear program|calculation ; program|condition program|cycle program|$
+program->declear program|calculation ; program|condition program|cycle program|array_declear program|$
 
 
 declear->type_name PUSH IDENTIFIER PUSH declear1
 declear1->; FILL|= declear2
 declear2->CONSTANT PUSH FILL_I ;|IDENTIFIER PUSH FILL_I ;
 
+array_declear->[ CONSTANT ] type_name IDENTIFIER array_declear1
+array_declear1->;|= array_declear2
+array_declear2->{ constant_list } ;
+
+constant_list->CONSTANT PUSH constant_list1|$
+constant_list1->$|, constant_list
+
 assignment->IDENTIFIER = CONSTANT
 
-condition->IF ( calculation ) GEQ_IF { program } END_IF condition_else
-condition_else->ELSE { program }|$
+condition->IF ( calculation ) GEQ_IF { program } condition_else END_IF
+condition_else->BEGIN_ELSE ELSE { program }|$
 
 cycle->WHILE ( calculation ) GEQ_WHILE { program } END_WHILE
 

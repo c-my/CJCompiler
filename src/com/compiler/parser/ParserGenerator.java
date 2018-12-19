@@ -46,6 +46,8 @@ public class ParserGenerator {
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_IF));
                         else if(sym.equals("END_IF"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.END_IF));
+                        else if(sym.equals("BEGIN_ELSE"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.BEGIN_ELSE));
                         else if(sym.equals("GEQ_WHILE"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_WHILE));
                         else if(sym.equals("END_WHILE"))
@@ -77,9 +79,6 @@ public class ParserGenerator {
                     break;
                 case DELIMITER:
                     switch (token.getStr()) {
-                        case "=":
-                            symbolList.add(new Symbol("=", Symbol.SymbolType.Terminal));
-                            break;
                         case "*=":
                             symbolList.add(new Symbol("MUL_ASSIGN", Symbol.SymbolType.Terminal));
                             break;

@@ -3,8 +3,6 @@ package com.compiler.parser;
 import com.compiler.lexer.Token;
 import com.compiler.utils.Pair;
 
-import javax.swing.plaf.synth.SynthButtonUI;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -150,6 +148,9 @@ abstract class LLParser {
                         case END_IF:
                             Tables.quaternaryList.add(new Quaternary("END_IF", "", "", ""));
                             break;
+                        case BEGIN_ELSE:
+                            Tables.quaternaryList.add(new Quaternary("BEGIN_ELSE", "", "", ""));
+                            break;
                         case GEQ_WHILE:
                             Symbol cycleSym = semStack.pop();
                             Tables.quaternaryList.add(new Quaternary("while", "", "", cycleSym.getValue()));
@@ -176,11 +177,11 @@ abstract class LLParser {
                     final Symbol topSym_tmp = topSym;
                     var res = form.keySet().stream().filter(pair -> pair.first.equals(topSym_tmp) && pair.second.equals(str.get(index_tmp))).findFirst();
                     if (res.isEmpty()) {
-//                        System.out.print(topSym);
-//                        System.out.print("::");
-//                        System.out.println(str.get(index));
-//                        System.out.print("Stack: ");
-//                        System.out.println(symStack);
+                        System.out.print(topSym);
+                        System.out.print("::");
+                        System.out.println(str.get(index));
+                        System.out.print("Stack: ");
+                        System.out.println(symStack);
                         return false;
                     }
                     var symStr = form.get(res.get());
@@ -221,7 +222,9 @@ abstract class LLParser {
         var first = new HashSet<Symbol>();
         if (!symstr.isEmpty()) {
             // 左部为终结符
-            var s = symstr.get(0);
+            var s = symstr.getFirstSymbol();
+            if (s.getId().isEmpty())
+                return first;
             if (s.getType().equals(Symbol.SymbolType.Terminal)) {
                 first.add(s);
                 return first;
@@ -242,9 +245,9 @@ abstract class LLParser {
 
     private HashSet<Symbol> getFirst(final Symbol sym) {
         HashSet<Symbol> first = new HashSet<>();
-        if (sym.getType().equals(Symbol.SymbolType.Terminal)) {
+        if (sym.getType() == Symbol.SymbolType.Terminal) {
             first.add(sym);
-        } else {
+        } else if (sym.getType() != Symbol.SymbolType.Action) {
             var rules = getProductionRules();
             if (!rules.keySet().contains(sym)) {
                 return first;
@@ -378,7 +381,9 @@ abstract class LLParser {
                 }
             }
             return false;
-        } else return sym.getType().equals(Symbol.SymbolType.Empty);
+        } /*else if (sym.getType() == Symbol.SymbolType.Action) {
+            return true;
+        } */else return sym.getType() == Symbol.SymbolType.Empty;
     }
 
     private boolean isAtLast(Symbol key, Symbol val) {
