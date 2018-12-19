@@ -2,7 +2,6 @@ package com.compiler.parser;
 
 import com.compiler.lexer.Token;
 
-import javax.lang.model.util.ElementScanner6;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -36,13 +35,15 @@ public class ParserGenerator {
                         if (sym.equals("$"))
                             symbolString.add(new Symbol(sym, Symbol.SymbolType.Empty));
                         else if (sym.equals("PUSH"))
-                            symbolString.add(new Symbol(sym, Symbol.ActionTYpe.PUSH));
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.PUSH));
                         else if (sym.equals("FILL"))
-                            symbolString.add(new Symbol(sym, Symbol.ActionTYpe.FILL));
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.FILL));
                         else if (sym.equals("FILL_I"))
-                            symbolString.add(new Symbol(sym, Symbol.ActionTYpe.FILL_I));
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.FILL_I));
                         else if (sym.equals("GEQ"))
-                            symbolString.add(new Symbol(sym, Symbol.ActionTYpe.GEQ));
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ));
+                        else if(sym.equals("GEQ_IF"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_IF));
                         else if (ParserTest.isTerminal(sym))
                             symbolString.add(new Symbol(sym, Symbol.SymbolType.Terminal));
                         else

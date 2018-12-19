@@ -23,7 +23,7 @@ public class Symbol {
         this.valueType = type;
     }
 
-    Symbol(final String name, ActionTYpe at) {
+    Symbol(final String name, ActionType at) {
         id = name;
         aType = at;
         sType = SymbolType.Action;
@@ -34,10 +34,10 @@ public class Symbol {
         Terminal, Nonterminal, Empty, End, Action
     }
 
-    enum ActionTYpe {
-        PUSH, FILL
-        , FILL_I //有初值的填表
+    enum ActionType {
+        PUSH, FILL, FILL_I //有初值的填表
         , GEQ    //生成运算四元式
+        , GEQ_IF
     }
 
     public String getId() {
@@ -48,7 +48,7 @@ public class Symbol {
         return sType;
     }
 
-    public ActionTYpe getaType() {
+    public ActionType getaType() {
         return aType;
     }
 
@@ -62,7 +62,7 @@ public class Symbol {
 
     private String id;
     private SymbolType sType;
-    private ActionTYpe aType;
+    private ActionType aType;
     private String value;
     private Token.tokenType valueType = Token.tokenType.NONE;
 
