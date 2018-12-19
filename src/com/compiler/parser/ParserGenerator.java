@@ -44,6 +44,8 @@ public class ParserGenerator {
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ));
                         else if(sym.equals("GEQ_IF"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_IF));
+                        else if(sym.equals("END_IF"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.END_IF));
                         else if (ParserTest.isTerminal(sym))
                             symbolString.add(new Symbol(sym, Symbol.SymbolType.Terminal));
                         else

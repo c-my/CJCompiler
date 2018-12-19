@@ -38,6 +38,7 @@ public class Symbol {
         PUSH, FILL, FILL_I //有初值的填表
         , GEQ    //生成运算四元式
         , GEQ_IF
+        , END_IF
     }
 
     public String getId() {

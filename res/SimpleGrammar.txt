@@ -7,7 +7,7 @@ declear2->CONSTANT PUSH FILL_I ;|IDENTIFIER PUSH FILL_I ;
 
 assignment->IDENTIFIER = CONSTANT
 
-condition->IF ( calculation ) GEQ_IF { program } condition_else
+condition->IF ( calculation ) GEQ_IF { program } END_IF condition_else
 condition_else->ELSE { program }|$
 
 calculation->fifth calculation1

@@ -145,7 +145,10 @@ abstract class LLParser {
                         case GEQ_IF:
                             Symbol conditionSym = semStack.pop();
 //                            Symbol ifSym = semStack.pop();
-                            Tables.quaternaryList.add(new Quaternary("if","","",conditionSym.getValue()));
+                            Tables.quaternaryList.add(new Quaternary("if", "", "", conditionSym.getValue()));
+                            break;
+                        case END_IF:
+                            Tables.quaternaryList.add(new Quaternary("END_IF", "", "", ""));
                             break;
                     }
                     continue;
