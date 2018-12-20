@@ -162,6 +162,10 @@ abstract class LLParser {
                         case PUSH_CAPACITY:
                             capacityStack.push(lastTopSym);
                             break;
+                        case GEQ_PRINT:
+                            Symbol prntSym = semStack.pop();
+                            Tables.quaternaryList.add(new Quaternary("PRINT", "", "", prntSym.getValue()));
+                            break;
                         case FILL_EMPTY_ARRAY:
                             var capacitySym = capacityStack.pop();
                             System.out.println("Capacity: " + capacitySym.getValue());

@@ -40,7 +40,7 @@ public class Symbol {
         , FILL_EMPTY_ARRAY //填空数组
         , PUSH_CAPACITY //将数组容量压栈
         , GEQ    //生成运算四元式
-        , GEQ_IF, END_IF, BEGIN_ELSE, GEQ_WHILE, END_WHILE
+        , GEQ_IF, END_IF, BEGIN_ELSE, GEQ_WHILE, END_WHILE, GEQ_PRINT
     }
 
     public String getId() {
