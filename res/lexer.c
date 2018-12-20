@@ -1,5 +1,4 @@
 int a = 13;
-double c;
-int b = a;
-
-a<<23-1;
+int b = 16;
+int c;
+c = a + b;

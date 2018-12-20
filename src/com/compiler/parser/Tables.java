@@ -24,6 +24,13 @@ public class Tables {
     //四元式表
     public static ArrayList<Quaternary> quaternaryList = new ArrayList<>();
 
+    public static SymbolTableItem findSymbol(String name){
+        var res = SymbolTable.stream().filter(item -> item.getName().equals(name)).findFirst();
+        if(res.isPresent())
+            return res.get();
+        return new SymbolTableItem();
+    }
+
 
     public static int getIntValue(String name) {
         var first = SymbolTable.stream().filter(item -> item.getName().equals(name)).findFirst();
@@ -80,39 +87,42 @@ public class Tables {
 
 }
 
-// 类型表中的表项
-class TypeLabelItem {
-    public TypeLabelItem(type t) {
-        this.t = t;
-        switch (t) {
-            case CHAR:
-            case INTEGER:
-            case FLOAT:
-                this.tpoint = -1; //基本类型为null
-                break;
-            case ARRAY:
-                break;
-            case STRUCT:
-                break;
-        }
-    }
-
-    public enum type {INTEGER, FLOAT, CHAR, ARRAY, STRUCT, NULL}
-
-    private type t;
-    private int tpoint;
-
-    public int getTpoint() {
-        return tpoint;
-    }
-
-    public type getType() {
-        return t;
-    }
-}
+//// 类型表中的表项
+//class TypeLabelItem {
+//    public TypeLabelItem(type t) {
+//        this.t = t;
+//        switch (t) {
+//            case CHAR:
+//            case INTEGER:
+//            case FLOAT:
+//                this.tpoint = -1; //基本类型为null
+//                break;
+//            case ARRAY:
+//                break;
+//            case STRUCT:
+//                break;
+//        }
+//    }
+//
+//    public enum type {INTEGER, FLOAT, CHAR, ARRAY, STRUCT, NULL}
+//
+//    private type t;
+//    private int tpoint;
+//
+//    public int getTpoint() {
+//        return tpoint;
+//    }
+//
+//    public type getType() {
+//        return t;
+//    }
+//}
 
 // 符号总表中的表项
 class SymbolTableItem {
+    public SymbolTableItem(){
+
+    }
     public SymbolTableItem(String name, Token.tokenType tokenType, cat_enum cat, String initVal) {
         this.name = name;
         this.cat = cat;
