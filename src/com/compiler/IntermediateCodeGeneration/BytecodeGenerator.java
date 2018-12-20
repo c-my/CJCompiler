@@ -19,12 +19,14 @@ public class BytecodeGenerator implements Opcodes {
             mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
             //遍历四元式
             System.out.println(Tables.quaternaryList + "!!!");
+            final int maxStack = 100;
             for (Quaternary quaternary : Tables.quaternaryList) {
                 ComputClass c = new ComputClass(new Quaternary());
                 c.comput(mv,quaternary);
                 System.out.println("循环四元式完成");
             }
             mv.visitInsn(RETURN); //add return instruction
+            mv.visitMaxs(maxStack, 100);
             mv.visitEnd();
         }
         cw.visitEnd();

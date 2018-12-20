@@ -18,10 +18,14 @@ public class ComputClass implements Opcodes {
     public void comput(MethodVisitor mv , Quaternary quaternary){
         final String opt = new String(quaternary.getOpt());//判断运算符
         if (opt.equals("=")) {
+            //System.out.println("等于完成");
             switch (Tables.getType(quaternary.getOpds().get(0))){
+
                 case INTEGER:
+                    //System.out.println("等于完成");
                     int val0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.INTEGER);
                     int val2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);
+                   // mv.visitCode();
                     mv.visitIntInsn(BIPUSH, val0);
                     mv.visitVarInsn(ISTORE, val2);
                     System.out.println("等于完成");
@@ -39,6 +43,7 @@ public class ComputClass implements Opcodes {
             switch (Tables.getType(quaternary.getOpds().get(0))){
                 case INTEGER:
                     int val0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.INTEGER);
+                    System.out.println(val0);
                     int val1 = Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
                     int val2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);
                     mv.visitVarInsn(ILOAD, val0);
