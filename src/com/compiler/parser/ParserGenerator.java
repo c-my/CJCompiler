@@ -36,21 +36,27 @@ public class ParserGenerator {
                             symbolString.add(new Symbol(sym, Symbol.SymbolType.Empty));
                         else if (sym.equals("PUSH"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.PUSH));
+                        else if (sym.equals("PUSH_CAPACITY"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.PUSH_CAPACITY));
                         else if (sym.equals("FILL"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.FILL));
                         else if (sym.equals("FILL_I"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.FILL_I));
+                        else if (sym.equals("FILL_ARRAY"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.FILL_ARRAY));
+                        else if (sym.equals("FILL_EMPTY_ARRAY"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.FILL_EMPTY_ARRAY));
                         else if (sym.equals("GEQ"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ));
-                        else if(sym.equals("GEQ_IF"))
+                        else if (sym.equals("GEQ_IF"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_IF));
-                        else if(sym.equals("END_IF"))
+                        else if (sym.equals("END_IF"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.END_IF));
-                        else if(sym.equals("BEGIN_ELSE"))
+                        else if (sym.equals("BEGIN_ELSE"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.BEGIN_ELSE));
-                        else if(sym.equals("GEQ_WHILE"))
+                        else if (sym.equals("GEQ_WHILE"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_WHILE));
-                        else if(sym.equals("END_WHILE"))
+                        else if (sym.equals("END_WHILE"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.END_WHILE));
                         else if (ParserTest.isTerminal(sym))
                             symbolString.add(new Symbol(sym, Symbol.SymbolType.Terminal));

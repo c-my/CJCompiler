@@ -5,9 +5,9 @@ declear->type_name PUSH IDENTIFIER PUSH declear1
 declear1->; FILL|= declear2
 declear2->CONSTANT PUSH FILL_I ;|IDENTIFIER PUSH FILL_I ;
 
-array_declear->[ CONSTANT ] type_name IDENTIFIER array_declear1
-array_declear1->;|= array_declear2
-array_declear2->{ constant_list } ;
+array_declear->[ CONSTANT PUSH_CAPACITY ] type_name PUSH IDENTIFIER array_declear1
+array_declear1->; FILL_EMPTY_ARRAY|= array_declear2
+array_declear2->{ constant_list } FILL_ARRAY ;
 
 constant_list->CONSTANT PUSH constant_list1|$
 constant_list1->$|, constant_list

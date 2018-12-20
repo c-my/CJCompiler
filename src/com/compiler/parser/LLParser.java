@@ -53,6 +53,7 @@ abstract class LLParser {
         var form = getForm();
         Stack<Symbol> symStack = new Stack<>();
         Stack<Symbol> semStack = new Stack<>();
+        Stack<Symbol> capacityStack = new Stack<>();
 
         str.add(endSym);
         symStack.push(endSym);
@@ -157,6 +158,23 @@ abstract class LLParser {
                             break;
                         case END_WHILE:
                             Tables.quaternaryList.add(new Quaternary("END_WHILE", "", "", ""));
+                            break;
+                        case PUSH_CAPACITY:
+                            capacityStack.push(lastTopSym);
+                            break;
+                        case FILL_EMPTY_ARRAY:
+                            var capacitySym = capacityStack.pop();
+                            System.out.println("Capacity: " + capacitySym.getValue());
+                            System.out.println("Type: " + semStack.pop().getId());
+
+//                            Tables.arrayTable.add(new ArrayTableItem(Integer.parseInt(capacitySym.getValue())));
+                            break;
+                        case FILL_ARRAY:
+                            var capacitysSym = Integer.parseInt(capacityStack.pop().getValue());
+                            System.out.println("Capacitys: " + capacitysSym);
+                            for (int i = 0; i < capacitysSym; ++i)
+                                System.out.print(semStack.pop().getValue() + " ");
+                            System.out.println();
                             break;
                     }
                     continue;
@@ -383,7 +401,7 @@ abstract class LLParser {
             return false;
         } /*else if (sym.getType() == Symbol.SymbolType.Action) {
             return true;
-        } */else return sym.getType() == Symbol.SymbolType.Empty;
+        } */ else return sym.getType() == Symbol.SymbolType.Empty;
     }
 
     private boolean isAtLast(Symbol key, Symbol val) {

@@ -21,6 +21,9 @@ public class Tables {
     public static ArrayList<Double> doubleList = new ArrayList<>();
     public static ArrayList<Character> charList = new ArrayList<>();
 
+    //数组表
+    public static ArrayList<ArrayTableItem> arrayTable = new ArrayList<>();
+
     //四元式表
     public static ArrayList<Quaternary> quaternaryList = new ArrayList<>();
 
@@ -144,6 +147,10 @@ class SymbolTableItem {
                     Tables.integerList.add(Integer.parseInt(initVal));
                 addr = Tables.integerList.size() - 1;
                 break;
+            case NONE://其他类型（数组）
+                typ = Tables.typeTabel.size();
+                Tables.typeTabel.add(new TypeLabelItem(TypeLabelItem.type.ARRAY));
+                break;
         }
     }
 
@@ -195,7 +202,7 @@ class SymbolTableItem {
 
 //数组表
 class ArrayTableItem {
-    public ArrayTableItem(int up) {
+    public ArrayTableItem(int up, Token.tokenType type) {
         this.up = up;
     }
 

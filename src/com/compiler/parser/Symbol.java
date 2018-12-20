@@ -36,6 +36,9 @@ public class Symbol {
 
     enum ActionType {
         PUSH, FILL, FILL_I //有初值的填表
+        , FILL_ARRAY //填数组表
+        , FILL_EMPTY_ARRAY //填空数组
+        , PUSH_CAPACITY //将数组容量压栈
         , GEQ    //生成运算四元式
         , GEQ_IF, END_IF, BEGIN_ELSE, GEQ_WHILE, END_WHILE
     }
