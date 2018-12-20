@@ -7,3 +7,4 @@ a=a+2;
 } else{
     a = a+4;
 }
+print a;
