@@ -6,6 +6,7 @@ import com.compiler.parser.ParserGenerator;
 import com.compiler.parser.ParserTest;
 import com.compiler.parser.Tables;
 
+
 public class Main {
 
     public static void main(String[] args) {
@@ -25,6 +26,7 @@ public class Main {
 
 
         boolean result = pt.Check(symbolString);
+
         var compiler = new Compiler();
         try{compiler.compile();}
         catch (Exception e){
