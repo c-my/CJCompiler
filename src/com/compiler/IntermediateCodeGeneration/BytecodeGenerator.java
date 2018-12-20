@@ -1,14 +1,14 @@
 package com.compiler.IntermediateCodeGeneration;
 
 import com.compiler.parser.Quaternary;
+import com.compiler.parser.Tables;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import java.util.ArrayList;
-
 public class BytecodeGenerator implements Opcodes {
-    public byte[] generateBytecode(ArrayList<Quaternary> array) throws Exception {
+    public byte[] generateBytecode() throws Exception {
+
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         MethodVisitor mv;
         //版本 ,类型, 名字, signature,父类, 接口
@@ -18,9 +18,11 @@ public class BytecodeGenerator implements Opcodes {
             //声明 static void main
             mv = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
             //遍历四元式
-            for (Quaternary quaternary : array) {
+            System.out.println(Tables.quaternaryList + "!!!");
+            for (Quaternary quaternary : Tables.quaternaryList) {
                 ComputClass c = new ComputClass(new Quaternary());
-                c.comput(mv);
+                c.comput(mv,quaternary);
+                System.out.println("循环四元式完成");
             }
             mv.visitInsn(RETURN); //add return instruction
             mv.visitEnd();

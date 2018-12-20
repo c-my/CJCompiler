@@ -1,14 +1,30 @@
-program->declear program|calculation ; program|$
+program->declear program|calculation ; program|condition program|cycle program|array_declear program|$
 
 
 declear->type_name PUSH IDENTIFIER PUSH declear1
 declear1->; FILL|= declear2
 declear2->CONSTANT PUSH FILL_I ;|IDENTIFIER PUSH FILL_I ;
 
+array_declear->[ CONSTANT PUSH_CAPACITY ] type_name PUSH IDENTIFIER array_declear1
+array_declear1->; FILL_EMPTY_ARRAY|= array_declear2
+array_declear2->{ constant_list } FILL_ARRAY ;
+
+constant_list->CONSTANT PUSH constant_list1|$
+constant_list1->$|, constant_list
+
 assignment->IDENTIFIER = CONSTANT
 
-calculation->fourth calculation1
-calculation1->fourth_operator PUSH fourth GEQ calculation1|$
+condition->IF ( calculation ) GEQ_IF { program } condition_else END_IF
+condition_else->BEGIN_ELSE ELSE { program }|$
+
+cycle->WHILE ( calculation ) GEQ_WHILE { program } END_WHILE
+
+
+
+calculation->fifth calculation1
+calculation1->fifth_operator PUSH fifth GEQ calculation1 |$
+fifth->fourth fifth1
+fifth1->fourth_operator PUSH fourth GEQ fifth1|$
 fourth->third fourth1
 fourth1->third_operator PUSH third GEQ fourth1|$
 third->second third1
@@ -24,3 +40,4 @@ first_operator->!|~
 second_operator->*|/|%
 third_operator->+|-|<<|>>
 fourth_operator->&|^||
+fifth_operator->=|EQ_OP|NE_OP

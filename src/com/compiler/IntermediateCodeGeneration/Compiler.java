@@ -1,6 +1,5 @@
 package com.compiler.IntermediateCodeGeneration;
 
-import com.compiler.parser.Tables;
 import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.Opcodes;
 
@@ -10,17 +9,18 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class Compiler implements Opcodes {
-    public void Compilermain(String[] args) throws Exception {
+    /*public void Compilermain(String[] args) throws Exception {
         new Compiler().compile(args);
-    }
+    }*/
 
-    public void compile(String[] args) throws Exception {
+    public void compile() throws Exception {
 
+        //System.out.println(Tables.quaternaryList + "!!!");
         final File enkelFile = new File("res/lexer.c");
         String fileName = enkelFile.getName();
         //String fileAbsolutePath = enkelFile.getAbsolutePath();
         //String className = StringUtils.remove(fileName, ".enk");
-        final byte[] byteCode = new BytecodeGenerator().generateBytecode(Tables.quaternaryList);
+        final byte[] byteCode = new BytecodeGenerator().generateBytecode();
         saveBytecodeToClassFile(fileName, byteCode);
     }
 

@@ -15,15 +15,16 @@ public class ComputClass implements Opcodes {
         this.quaternary = quaternary;
     }
 
-    public void comput(MethodVisitor mv){
-        final String opt = quaternary.getOpt();//判断运算符
-        if (opt == "=") {
+    public void comput(MethodVisitor mv , Quaternary quaternary){
+        final String opt = new String(quaternary.getOpt());//判断运算符
+        if (opt.equals("=")) {
             switch (Tables.getType(quaternary.getOpds().get(0))){
                 case INTEGER:
                     int val0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.INTEGER);
                     int val2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);
                     mv.visitIntInsn(BIPUSH, val0);
                     mv.visitVarInsn(ISTORE, val2);
+                    System.out.println("等于完成");
                     break;
                     case FLOAT:
                         int dou0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.FLOAT);
@@ -34,7 +35,7 @@ public class ComputClass implements Opcodes {
                 }
 
         }
-        else if(opt == "+"){
+        else if(opt.equals("+")){
             switch (Tables.getType(quaternary.getOpds().get(0))){
                 case INTEGER:
                     int val0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.INTEGER);
@@ -44,6 +45,7 @@ public class ComputClass implements Opcodes {
                     mv.visitVarInsn(ILOAD, val1);
                     mv.visitInsn(IADD);
                     mv.visitVarInsn(ISTORE, val2);
+                    System.out.println("加法完成");
                     break;
                 case FLOAT:
                     int dou0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.FLOAT);

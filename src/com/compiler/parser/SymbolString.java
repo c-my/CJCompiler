@@ -78,7 +78,17 @@ public class SymbolString implements Iterable {
 
     boolean isEmpty() {
         return symString.isEmpty() ||
-                (symString.get(0).getType().equals(Symbol.SymbolType.Empty));
+                (symString.get(0).getType().equals(Symbol.SymbolType.Empty)) ||
+                isAllAction();
+
+    }
+
+    private boolean isAllAction() {
+        for (var sym : symString) {
+            if (sym.getType() != Symbol.SymbolType.Action)
+                return false;
+        }
+        return true;
     }
 
     public int size() {
@@ -111,4 +121,12 @@ public class SymbolString implements Iterable {
 
     private ArrayList<Symbol> symString;
     private int id;
+
+    public Symbol getFirstSymbol() {
+        for (var sym : symString) {
+            if (sym.getType() != Symbol.SymbolType.Action)
+                return sym;
+        }
+        return new Symbol();
+    }
 }

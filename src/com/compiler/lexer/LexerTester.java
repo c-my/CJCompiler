@@ -79,8 +79,8 @@ public class LexerTester {
     }
 
     private boolean isKeywordSuffix(Character ch) {
-        return ch == ')' || ch == ' ' || ch == '\t'
-                || ch == '[' || ch == '*';
+        return ch=='(' || ch == ')' || ch == ' ' || ch == '\t'
+                || ch == '[' || ch == '*' || ch=='{';
     }
 
     private boolean isNumSuffix(Character ch) {
