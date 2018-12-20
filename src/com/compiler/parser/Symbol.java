@@ -23,7 +23,7 @@ public class Symbol {
         this.valueType = type;
     }
 
-    Symbol(final String name, ActionTYpe at) {
+    Symbol(final String name, ActionType at) {
         id = name;
         aType = at;
         sType = SymbolType.Action;
@@ -34,10 +34,13 @@ public class Symbol {
         Terminal, Nonterminal, Empty, End, Action
     }
 
-    enum ActionTYpe {
-        PUSH, FILL
-        , FILL_I //有初值的填表
+    enum ActionType {
+        PUSH, FILL, FILL_I //有初值的填表
+        , FILL_ARRAY //填数组表
+        , FILL_EMPTY_ARRAY //填空数组
+        , PUSH_CAPACITY //将数组容量压栈
         , GEQ    //生成运算四元式
+        , GEQ_IF, END_IF, BEGIN_ELSE, GEQ_WHILE, END_WHILE
     }
 
     public String getId() {
@@ -48,7 +51,7 @@ public class Symbol {
         return sType;
     }
 
-    public ActionTYpe getaType() {
+    public ActionType getaType() {
         return aType;
     }
 
@@ -62,7 +65,7 @@ public class Symbol {
 
     private String id;
     private SymbolType sType;
-    private ActionTYpe aType;
+    private ActionType aType;
     private String value;
     private Token.tokenType valueType = Token.tokenType.NONE;
 
@@ -71,6 +74,8 @@ public class Symbol {
         StringBuilder sb = new StringBuilder();
         if (sType == SymbolType.Nonterminal)
             sb.append("[N]");
+        else if (sType == SymbolType.Action)
+            sb.append("[AC]");
         sb.append(id);
         if (valueType != Token.tokenType.NONE) {
             sb.append("(");

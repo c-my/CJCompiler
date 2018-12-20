@@ -26,16 +26,16 @@ public class ParserTest extends LLParser {
 //            System.out.print("\t");
 //            System.out.println(form.get(k));
 //        }
-        var rules = getProductionRules();
-        for (var ru : rules.keySet()) {
-            var strs = rules.get(ru);
-            for (var st : strs) {
-                var select = getSelect(st);
-                System.out.print(st);
-                System.out.print(":  ");
-                System.out.println(select);
-            }
-        }
+//        var rules = getProductionRules();
+//        for (var ru : rules.keySet()) {
+//            var strs = rules.get(ru);
+//            for (var st : strs) {
+//                var select = getSelect(st);
+//                System.out.print(st);
+//                System.out.print(":  ");
+//                System.out.println(select);
+//            }
+//        }
 
     }
 
