@@ -21,6 +21,42 @@ public class Tables {
     public static ArrayList<Double> doubleList = new ArrayList<>();
     public static ArrayList<Character> charList = new ArrayList<>();
 
+    public static boolean setIntValue(String name, int val) {
+        var result = SymbolTable.stream().filter(symbolTableItem -> symbolTableItem.getName().equals(name)).findFirst();
+        if (result.isEmpty()) //没找到
+            return false;
+        var item = result.get();
+        if (typeTabel.get(item.getTyp()).getType() != TypeLabelItem.type.INTEGER) //不是int
+            return false;
+        int index = item.getAddr();
+        integerList.set(index, val);
+        return true;
+    }
+
+    public static boolean setDoubleValue(String name, double val) {
+        var result = SymbolTable.stream().filter(symbolTableItem -> symbolTableItem.getName().equals(name)).findFirst();
+        if (result.isEmpty()) //没找到
+            return false;
+        var item = result.get();
+        if (typeTabel.get(item.getTyp()).getType() != TypeLabelItem.type.FLOAT) //不是int
+            return false;
+        int index = item.getAddr();
+        doubleList.set(index, val);
+        return true;
+    }
+
+    public static boolean setCharValue(String name, char val) {
+        var result = SymbolTable.stream().filter(symbolTableItem -> symbolTableItem.getName().equals(name)).findFirst();
+        if (result.isEmpty()) //没找到
+            return false;
+        var item = result.get();
+        if (typeTabel.get(item.getTyp()).getType() != TypeLabelItem.type.CHAR) //不是int
+            return false;
+        int index = item.getAddr();
+        charList.set(index, val);
+        return true;
+    }
+
     //数组表
     public static ArrayList<ArrayTableItem> arrayTable = new ArrayList<>();
 
