@@ -15,6 +15,7 @@ public class StringSet {
             "goto",
             "if", "int",
             "long",
+            "print",
             "register", "return",
             "short", "signed", "sizeof", "static", "struct", "switch",
             "typedef",

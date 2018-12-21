@@ -1,5 +1,7 @@
-program->declear program|calculation ; program|condition program|cycle program|array_declear program|$
+program->declear program|calculation ; program|condition program|cycle program|array_declear program|print_func ; program|$
 
+
+print_func->PRINT calculation GEQ_PRINT
 
 declear->type_name PUSH IDENTIFIER PUSH declear1
 declear1->; FILL|= declear2

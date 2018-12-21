@@ -10,6 +10,7 @@ public class BytecodeGenerator implements Opcodes {
     public byte[] generateBytecode() throws Exception {
 
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
+        //ClassWriter cw = new ClassWriter(0);
         MethodVisitor mv;
         //版本 ,类型, 名字, signature,父类, 接口
         //创建一个共有类MyClass
@@ -20,6 +21,7 @@ public class BytecodeGenerator implements Opcodes {
             //遍历四元式
             System.out.println(Tables.quaternaryList + "!!!");
             final int maxStack = 100;
+            mv.visitCode();
             for (Quaternary quaternary : Tables.quaternaryList) {
                 ComputClass c = new ComputClass(new Quaternary());
                 c.comput(mv,quaternary);
