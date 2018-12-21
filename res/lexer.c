@@ -1,11 +1,8 @@
-
-int  b = 13 ;
-int a = 10;
-int c;
-c = a;
-int d;
-d = b;
+int  b ;
+b = 13 ;
+int a;
+ a= 10;
 int e;
-e = c + d;
+e = a + b;
 print e;
 

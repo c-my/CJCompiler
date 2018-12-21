@@ -24,13 +24,7 @@ public class ComputClass implements Opcodes {
                 case INTEGER:
                     //System.out.println("等于完成");
                     int val0 = Tables.getIntValue(quaternary.getOpds().get(0));
-                    //System.out.println("val0" + val0);
-                    //int val0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.INTEGER);
-                    //System.out.println(val0);
                     int val2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);
-                    //mv.visitCode();
-                    //mv.visitIntInsn(SIPUSH, 10);
-                    //mv.visitVarInsn(ISTORE, 0);
                     mv.visitIntInsn(SIPUSH, val0);
                     mv.visitVarInsn(ISTORE, val2);
                     System.out.println("等于完成");
@@ -43,8 +37,16 @@ public class ComputClass implements Opcodes {
                     mv.visitVarInsn(ASTORE,dou2);
                     break;
                 case NULL:
-                    int val = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);
-                    mv.visitVarInsn(ISTORE, val);
+                    if(Tables.isNumber(quaternary.getOpds().get(0)) == TypeLabelItem.type.INTEGER){
+                        int po0 = Integer.parseInt(quaternary.getOpds().get(0));
+                        int po2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);
+                        mv.visitIntInsn(SIPUSH, po0);
+                        mv.visitVarInsn(ISTORE, po2);
+                    }
+                    else {
+                        int val = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);
+                        mv.visitVarInsn(ISTORE, val);
+                    }
                     break;
                 }
 
