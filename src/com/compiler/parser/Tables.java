@@ -119,6 +119,20 @@ public class Tables {
         return index;
     }
 
+    public static TypeLabelItem.type isNumber(String str) {
+        try {
+            Integer.parseInt(str);
+        } catch (NumberFormatException e) {
+            try {
+                Double.parseDouble(str);
+            } catch (NumberFormatException ee) {
+                return TypeLabelItem.type.NULL;
+            }
+            return TypeLabelItem.type.FLOAT;
+        }
+        return TypeLabelItem.type.INTEGER;
+    }
+
 }
 
 
