@@ -85,8 +85,14 @@ public class LexerTester {
                     tokenList.add(new Token(subLine.substring(0, index), t));
                     subLine = subLine.substring(index);
                 } else {
-                    System.out.println("lexer problem");
-                    return;
+                    if (subLine.charAt(0) == '+' || subLine.charAt(0) == '-') {
+                        tokenList.add(new Token(subLine.substring(0, 1), Token.tokenType.DELIMITER));
+                        subLine = subLine.substring(1);
+                        ++totalIndex;
+                    } else {
+                        System.out.println("lexer problem");
+                        return;
+                    }
                 }
             }
         }
