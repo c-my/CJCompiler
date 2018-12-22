@@ -1,10 +1,11 @@
+int c = 1;
+int d = 1;
 int  b = 13;
-int a = 20;
-if(a == a){
-print a;
-}else{
-print b;
-}
+int a = 8;
+
+while(a != 10){
+ a = a+1;
+ }
 
 
 
