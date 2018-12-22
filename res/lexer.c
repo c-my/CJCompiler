@@ -1,10 +1,11 @@
-int a = 13;
-int b = 100;
-int c;
-c = a + b;
-if(a==1){
-a=a+2;
-} else{
-    a = a+4;
-}
+int  b = 13;
+int a = 20;
+if(a == a){
 print a;
+}else{
+print b;
+}
+
+
+
+
