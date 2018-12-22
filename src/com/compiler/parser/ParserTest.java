@@ -2,6 +2,7 @@ package com.compiler.parser;
 
 import com.compiler.utils.FileReader;
 import com.compiler.utils.Pair;
+import com.compiler.utils.Show;
 import com.compiler.utils.StringSet;
 
 import java.util.*;
@@ -82,6 +83,7 @@ public class ParserTest extends LLParser {
     private void initRules() {
         List<String> lines = FileReader.getLines("res/SimpleGrammar.txt");
         rules = ParserGenerator.Read(lines);
+        Show.printRules(rules);
     }
 
 
@@ -89,7 +91,8 @@ public class ParserTest extends LLParser {
     public static boolean isTerminal(String sym) {
         return terminalSymbols.contains(sym)
                 || StringSet.KEYWORD.contains(sym.toLowerCase())
-                || StringSet.DELIMITER.contains(sym.toLowerCase());
+                || StringSet.DELIMITER.contains(sym.toLowerCase())
+                || (sym.length()==1&&(sym.charAt(0)=='-'||sym.charAt(0)=='+'));
     }
 
     public static boolean isAction(String sym) {
