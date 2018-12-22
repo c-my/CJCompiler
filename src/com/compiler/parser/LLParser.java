@@ -237,9 +237,6 @@ abstract class LLParser {
                         return false;
                     }
                     var symStr = form.get(res.get());
-//                    System.out.print("Stack: " + symStack + "  ");
-//                    System.out.print(topSym + "->");
-//                    System.out.println(symStr);
                     for (int i = symStr.size() - 1; i >= 0; --i) {
                         if (symStr.get(i).getType() != Symbol.SymbolType.Empty) {
                             symStack.push(symStr.get(i));
