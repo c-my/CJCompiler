@@ -1,9 +1,8 @@
 package com.compiler.lexer;
 
-import com.compiler.utils.StringSet;
 import com.compiler.utils.CharSet;
+import com.compiler.utils.StringSet;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -46,6 +45,7 @@ public class Lexer extends Automaton {
 
     private void initTransitionForm() {
         addTransitionRule(0, CharSet.ZERO, 1);
+        addTransitionRule(1, empty, AcceptState.oct);
 
         addTransitionRule(1, CharSet.BINHEAD, 20);
         addTransitionRule(20, CharSet.BINNUM, 21);

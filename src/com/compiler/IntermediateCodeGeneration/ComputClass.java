@@ -42,7 +42,7 @@ public class ComputClass implements Opcodes {
                         mv.visitVarInsn(ISTORE, po2);
                     }
                     else {
-                        int val = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);
+                        int val = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);//直接将栈里的值赋给第三个算符
                         mv.visitVarInsn(ISTORE, val);
                     }
                     break;
@@ -53,12 +53,29 @@ public class ComputClass implements Opcodes {
             switch (Tables.getType(quaternary.getOpds().get(0))){
                 case INTEGER:
                     int val0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.INTEGER);
+                    int val1 ;
+
                     //System.out.println(val0);
-                    int val1 = Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
-                    int val2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);
-                    mv.visitVarInsn(ILOAD, val0);
-                    mv.visitVarInsn(ILOAD, val1);
-                    mv.visitInsn(IADD);
+                    switch (Tables.getType(quaternary.getOpds().get(1))){
+                        case INTEGER://第二个算符是变量
+                           val1 =  Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
+                            mv.visitVarInsn(ILOAD, val0);
+                            mv.visitVarInsn(ILOAD, val1);
+                            mv.visitInsn(IADD);
+                            break;
+                        case NULL://第二个算符是中间变量或常数
+                            if(Tables.isNumber(quaternary.getOpds().get(1)) == TypeLabelItem.type.INTEGER){
+                                val1 = Integer.parseInt(quaternary.getOpds().get(1));
+                                mv.visitVarInsn(ILOAD, val0);
+                                mv.visitIntInsn(BIPUSH, val1);
+                                mv.visitInsn(IADD);
+                            }
+                            else {
+                                mv.visitVarInsn(ILOAD, val0);
+                                mv.visitInsn(IADD);
+                            }
+                            break;
+                    }
                     System.out.println("加法完成");
                     break;
                 case FLOAT:
@@ -78,7 +95,7 @@ public class ComputClass implements Opcodes {
                     }
                     else if(Tables.getType(quaternary.getOpds().get(1)) == TypeLabelItem.type.NULL){//<+,t1,t2,t3>
                         mv.visitInsn(IADD);
-                }
+                    }
                     break;
             }
 
@@ -130,56 +147,56 @@ public class ComputClass implements Opcodes {
             switch (Tables.getType(quaternary.getOpds().get(0))){
                 case INTEGER:
                     dou0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.INTEGER);
-                    if(Tables.getType(quaternary.getOpds().get(1)) == TypeLabelItem.type.NULL){
-                        //第一个操作符不是临时变量或常数，第二个是
-                        if(Tables.isNumber(quaternary.getOpds().get(1)) == TypeLabelItem.type.INTEGER){
-                            //第二个操作数是整形常数
-                            dou1 = Integer.parseInt(quaternary.getOpds().get(1));
+                    switch (Tables.getType(quaternary.getOpds().get(1))){
+                        case NULL:
+                            if(Tables.isNumber(quaternary.getOpds().get(1)) == TypeLabelItem.type.INTEGER){
+                                //第二个操作数是整形常数
+                                dou1 = Integer.parseInt(quaternary.getOpds().get(1));
+                                Label label2 = new Label();
+                                Label label3 = new Label();
+                                mv.visitLabel(bet.labelwhile);
+                                mv.visitVarInsn(ILOAD, dou0);//将第一个操作数压栈
+                                mv.visitIntInsn(SIPUSH, dou1);//第二个操作数压栈
+                                mv.visitJumpInsn(IF_ICMPEQ,label2);//两操作数相等继续执行，否则跳到label2处
+                                mv.visitIntInsn(BIPUSH, 1);//将操作数栈顶置为1，为后续<if, , ,t1 >准备
+                                mv.visitJumpInsn(GOTO, label3);//无条件跳转到label3
+                                mv.visitLabel(label2);//label2在这里
+                                mv.visitIntInsn(BIPUSH, 0);//将栈顶值为0，为<BEGIN_ELSE, , , >准备
+                                mv.visitLabel(label3);//label3在这里
+                            }
+                            else{
+                                //第二个变量是临时变量
+                                Label label2 = new Label();
+                                Label label3 = new Label();
+                                mv.visitVarInsn(ISTORE,1);
+                                mv.visitLabel(bet.labelwhile);
+                                mv.visitVarInsn(ILOAD, dou0);//将第一个操作数压栈
+                                mv.visitVarInsn(ILOAD,1);
+                                //临时变量之前就已经在数据栈内，不需要压栈
+                                mv.visitJumpInsn(IF_ICMPEQ,label2);//两操作数相等继续执行，否则跳到label2处
+                                mv.visitIntInsn(BIPUSH, 1);//将操作数栈顶置为1，为后续<if, , ,t1 >准备
+                                mv.visitJumpInsn(GOTO, label3);//无条件跳转到label3
+                                mv.visitLabel(label2);//label2在这里
+                                mv.visitIntInsn(BIPUSH, 0);//将栈顶值为0，为<BEGIN_ELSE, , , >准备
+                                mv.visitLabel(label3);//label3在这里
+                            }
+                            break;
+                        case INTEGER:
+                            dou1 = Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
                             Label label2 = new Label();
                             Label label3 = new Label();
                             mv.visitLabel(bet.labelwhile);
                             mv.visitVarInsn(ILOAD, dou0);//将第一个操作数压栈
-                            mv.visitVarInsn(SIPUSH, dou1);//第二个操作数压栈
-                            mv.visitJumpInsn(IF_ICMPEQ,label2);//两操作数相等继续执行，否则跳到label2处
+                            mv.visitVarInsn(ILOAD, dou1);//第二个操作数压栈
+                            mv.visitJumpInsn(IF_ICMPNE,label2);//两操作数相等继续执行，否则跳到label2处
                             mv.visitIntInsn(BIPUSH, 1);//将操作数栈顶置为1，为后续<if, , ,t1 >准备
                             mv.visitJumpInsn(GOTO, label3);//无条件跳转到label3
                             mv.visitLabel(label2);//label2在这里
                             mv.visitIntInsn(BIPUSH, 0);//将栈顶值为0，为<BEGIN_ELSE, , , >准备
                             mv.visitLabel(label3);//label3在这里
-                        }
-                        else{
-                            //第二个变量是临时变量
-                            Label label2 = new Label();
-                            Label label3 = new Label();
-                            mv.visitVarInsn(ISTORE,1);
-                            mv.visitLabel(bet.labelwhile);
-                            mv.visitVarInsn(ILOAD, dou0);//将第一个操作数压栈
-                            mv.visitVarInsn(ILOAD,1);
-                           //临时变量之前就已经在数据栈内，不需要压栈
-                            mv.visitJumpInsn(IF_ICMPEQ,label2);//两操作数相等继续执行，否则跳到label2处
-                            mv.visitIntInsn(BIPUSH, 1);//将操作数栈顶置为1，为后续<if, , ,t1 >准备
-                            mv.visitJumpInsn(GOTO, label3);//无条件跳转到label3
-                            mv.visitLabel(label2);//label2在这里
-                            mv.visitIntInsn(BIPUSH, 0);//将栈顶值为0，为<BEGIN_ELSE, , , >准备
-                            mv.visitLabel(label3);//label3在这里
-                        }
-                    }
-                    else{//第二个也是变量
-                        dou1 = Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
-                        Label label2 = new Label();
-                        Label label3 = new Label();
-                        mv.visitLabel(bet.labelwhile);
-                        mv.visitVarInsn(ILOAD, dou0);//将第一个操作数压栈
-                        mv.visitVarInsn(ILOAD, dou1);//第二个操作数压栈
-                        mv.visitJumpInsn(IF_ICMPNE,label2);//两操作数相等继续执行，否则跳到label2处
-                        mv.visitIntInsn(BIPUSH, 1);//将操作数栈顶置为1，为后续<if, , ,t1 >准备
-                        mv.visitJumpInsn(GOTO, label3);//无条件跳转到label3
-                        mv.visitLabel(label2);//label2在这里
-                        mv.visitIntInsn(BIPUSH, 0);//将栈顶值为0，为<BEGIN_ELSE, , , >准备
-                        mv.visitLabel(label3);//label3在这里
+                            break;
                     }
 
-                    break;
                 case FLOAT://还没写
                     break;
                 case NULL://临时变量
@@ -238,7 +255,6 @@ public class ComputClass implements Opcodes {
                     }
                     else if(Tables.getType(quaternary.getOpds().get(1)) == TypeLabelItem.type.FLOAT){
                         //第二个是浮点变量
-
                     }
                     break;
             }

@@ -166,6 +166,9 @@ abstract class LLParser {
                         case GEQ_BREAK:
                             Tables.quaternaryList.add(new Quaternary("BREAK", "", "", ""));
                             break;
+                        case GEQ_CONTINUE:
+                            Tables.quaternaryList.add(new Quaternary("CONTINUE", "", "", ""));
+                            break;
                         case PUSH_CAPACITY:
                             capacityStack.push(lastTopSym);
                             break;
