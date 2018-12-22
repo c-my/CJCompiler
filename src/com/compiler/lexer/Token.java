@@ -1,10 +1,11 @@
 package com.compiler.lexer;
 
-
+// 词法分析得到的Token
 public class Token {
 
     public enum tokenType {INTEGER, FLOAT, DOUBLE, CHAR, STR, IDENTIFIER, DELIMITER, KEYWORD, NONE}
 
+    // token的名字和类型
     private String string = "";
     private tokenType type;
 
