@@ -22,6 +22,7 @@ abstract class Automaton {
     // 返回状态转移表
     abstract HashMap<StatePair, Integer> getTransitionForm();
 
+    // 从开始状态开始检查，返回最终的状态
     public Pair<Integer, Integer> Run(String str) {
         var transitionForm = getTransitionForm();
         var acceptStates = getAcceptStates();
@@ -58,7 +59,7 @@ abstract class Automaton {
         return new Pair<>(0,0);
     }
 
-
+    // 返回状态转移表中是否有下一个状态
     private StatePair hasNextState(int current, char ch) {
         var transitionForm = getTransitionForm();
         var res = transitionForm.keySet().stream().filter(statePair -> statePair.current.equals(current) &&

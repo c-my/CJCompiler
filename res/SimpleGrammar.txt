@@ -1,4 +1,4 @@
-program->declear program|calculation ; program|condition program|cycle program|array_declear program|print_func ; program|BREAK ; program GEQ_BREAK program|$
+program->declear program|calculation ; program|condition program|cycle program|array_declear program|print_func ; program|break_keyword ; program|$
 
 
 print_func->PRINT calculation GEQ_PRINT
@@ -21,7 +21,7 @@ condition_else->BEGIN_ELSE ELSE { program }|$
 
 cycle->WHILE ( calculation ) GEQ_WHILE { program } END_WHILE
 
-break_keyword->break GEQ_BREAK
+break_keyword->BREAK GEQ_BREAK|CONTINUE GEQ_CONTINUE
 
 calculation->fifth calculation1
 calculation1->fifth_operator PUSH fifth GEQ calculation1 |$

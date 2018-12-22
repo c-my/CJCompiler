@@ -27,23 +27,40 @@ public class ComputClass implements Opcodes {
                     mv.visitVarInsn(ISTORE, val2);//栈顶值赋值
                     break;
                 case FLOAT://浮点，double赋值（解决浮点问题后改善）
-                    Double dou0 = Tables.getDoubleValue(quaternary.getOpds().get(0));
-                    //int dou0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.FLOAT);
+                    Double dou0 = Tables.getDoubleValue(quaternary.getOpds().get(0));//第一个算符的值
                     int dou2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.FLOAT);
-                    mv.visitLdcInsn("asd");
-                    mv.visitVarInsn(ASTORE,dou2);
+                    mv.visitLdcInsn(dou0);//推送栈顶
+                    mv.visitVarInsn(DSTORE,dou2);//弹栈赋值
                     break;
                 case NULL://常数不在符号表中，常数赋值给变量
                     if(Tables.isNumber(quaternary.getOpds().get(0)) == TypeLabelItem.type.INTEGER){
-                        //四元式第一个算符是整形常数
+                        //四元式第一个算符是整形常数<=,1, ,a>
                         int po0 = Integer.parseInt(quaternary.getOpds().get(0));//求整形常熟的值
                         int po2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);//第三个算符在本地变量表中的位置
                         mv.visitIntInsn(SIPUSH, po0);
                         mv.visitVarInsn(ISTORE, po2);
                     }
-                    else {
-                        int val = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);//直接将栈里的值赋给第三个算符
-                        mv.visitVarInsn(ISTORE, val);
+                    else if(Tables.isNumber(quaternary.getOpds().get(0)) == TypeLabelItem.type.FLOAT){
+                        //<=,1.1, ,a>
+                        double po0 = Double.parseDouble(quaternary.getOpds().get(0));//求double 形常熟的值
+                        int po2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.FLOAT);//第三个算符在本地变量表中的位置
+                        mv.visitLdcInsn(po0);
+                        mv.visitVarInsn(DSTORE, po2);
+                    }
+                    else {//<=,t1, ,t2>
+                        switch (Tables.getType(quaternary.getOpds().get(2))){
+                            case INTEGER:
+                                int ival = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);//直接将栈里的值赋给第三个算符
+                                mv.visitVarInsn(ISTORE, ival);
+                                break;
+                            case FLOAT:
+                                int dval = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.FLOAT);//直接将栈里的值赋给第三个算符
+                                mv.visitVarInsn(DSTORE, dval);
+                                break;
+                            case CHAR:
+                                break;
+                        }
+
                     }
                     break;
                 }
@@ -99,6 +116,156 @@ public class ComputClass implements Opcodes {
                     break;
             }
 
+        }
+        else if(opt.equals("-")){
+            switch (Tables.getType(quaternary.getOpds().get(0))){
+                case INTEGER:
+                    int val0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.INTEGER);
+                    int val1 ;
+
+                    //System.out.println(val0);
+                    switch (Tables.getType(quaternary.getOpds().get(1))){
+                        case INTEGER://第二个算符是变量
+                            val1 =  Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
+                            mv.visitVarInsn(ILOAD, val0);
+                            mv.visitVarInsn(ILOAD, val1);
+                            mv.visitInsn(ISUB);
+                            break;
+                        case NULL://第二个算符是中间变量或常数
+                            if(Tables.isNumber(quaternary.getOpds().get(1)) == TypeLabelItem.type.INTEGER){
+                                val1 = Integer.parseInt(quaternary.getOpds().get(1));
+                                mv.visitVarInsn(ILOAD, val0);
+                                mv.visitIntInsn(BIPUSH, val1);
+                                mv.visitInsn(ISUB);
+                            }
+                            else {
+                                mv.visitVarInsn(ILOAD, val0);
+                                mv.visitInsn(ISUB);
+                            }
+                            break;
+                    }
+                    System.out.println("减法完成");
+                    break;
+                case FLOAT:
+                    int dou0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.FLOAT);
+                    int dou1 = Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.FLOAT);
+                    int dou2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.FLOAT);
+                    mv.visitVarInsn(DLOAD, dou0);
+                    mv.visitVarInsn(DLOAD, dou1);
+                    mv.visitInsn(FSUB);
+                    mv.visitVarInsn(FSTORE,dou2);
+                    break;
+                case NULL:
+                    if(Tables.getType(quaternary.getOpds().get(1)) == TypeLabelItem.type.INTEGER){//<+,t1,a,t2>
+                        int ui1 = Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
+                        mv.visitVarInsn(ILOAD, ui1);
+                        mv.visitInsn(ISUB);
+                    }
+                    else if(Tables.getType(quaternary.getOpds().get(1)) == TypeLabelItem.type.NULL){//<+,t1,t2,t3>
+                        mv.visitInsn(ISUB);
+                    }
+                    break;
+            }
+        }
+        else if(opt.equals("*")){
+            switch (Tables.getType(quaternary.getOpds().get(0))){
+                case INTEGER:
+                    int val0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.INTEGER);
+                    int val1 ;
+
+                    //System.out.println(val0);
+                    switch (Tables.getType(quaternary.getOpds().get(1))){
+                        case INTEGER://第二个算符是变量
+                            val1 =  Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
+                            mv.visitVarInsn(ILOAD, val0);
+                            mv.visitVarInsn(ILOAD, val1);
+                            mv.visitInsn(IMUL);
+                            break;
+                        case NULL://第二个算符是中间变量或常数
+                            if(Tables.isNumber(quaternary.getOpds().get(1)) == TypeLabelItem.type.INTEGER){
+                                val1 = Integer.parseInt(quaternary.getOpds().get(1));
+                                mv.visitVarInsn(ILOAD, val0);
+                                mv.visitIntInsn(BIPUSH, val1);
+                                mv.visitInsn(IMUL);
+                            }
+                            else {
+                                mv.visitVarInsn(ILOAD, val0);
+                                mv.visitInsn(IMUL);
+                            }
+                            break;
+                    }
+                    System.out.println("减法完成");
+                    break;
+                case FLOAT:
+                    int dou0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.FLOAT);
+                    int dou1 = Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.FLOAT);
+                    int dou2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.FLOAT);
+                    mv.visitVarInsn(DLOAD, dou0);
+                    mv.visitVarInsn(DLOAD, dou1);
+                    mv.visitInsn(FMUL);
+                    mv.visitVarInsn(FSTORE,dou2);
+                    break;
+                case NULL:
+                    if(Tables.getType(quaternary.getOpds().get(1)) == TypeLabelItem.type.INTEGER){//<+,t1,a,t2>
+                        int ui1 = Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
+                        mv.visitVarInsn(ILOAD, ui1);
+                        mv.visitInsn(IMUL);
+                    }
+                    else if(Tables.getType(quaternary.getOpds().get(1)) == TypeLabelItem.type.NULL){//<+,t1,t2,t3>
+                        mv.visitInsn(IMUL);
+                    }
+                    break;
+            }
+        }
+        else if(opt.equals("/")){
+            switch (Tables.getType(quaternary.getOpds().get(0))){
+                case INTEGER:
+                    int val0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.INTEGER);
+                    int val1 ;
+
+                    //System.out.println(val0);
+                    switch (Tables.getType(quaternary.getOpds().get(1))){
+                        case INTEGER://第二个算符是变量
+                            val1 =  Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
+                            mv.visitVarInsn(ILOAD, val0);
+                            mv.visitVarInsn(ILOAD, val1);
+                            mv.visitInsn(IDIV);
+                            break;
+                        case NULL://第二个算符是中间变量或常数
+                            if(Tables.isNumber(quaternary.getOpds().get(1)) == TypeLabelItem.type.INTEGER){
+                                val1 = Integer.parseInt(quaternary.getOpds().get(1));
+                                mv.visitVarInsn(ILOAD, val0);
+                                mv.visitIntInsn(BIPUSH, val1);
+                                mv.visitInsn(IDIV);
+                            }
+                            else {
+                                mv.visitVarInsn(ILOAD, val0);
+                                mv.visitInsn(IDIV);
+                            }
+                            break;
+                    }
+                    System.out.println("减法完成");
+                    break;
+                case FLOAT:
+                    int dou0 = Tables.getSymbolCount(quaternary.getOpds().get(0), TypeLabelItem.type.FLOAT);
+                    int dou1 = Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.FLOAT);
+                    int dou2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.FLOAT);
+                    mv.visitVarInsn(DLOAD, dou0);
+                    mv.visitVarInsn(DLOAD, dou1);
+                    mv.visitInsn(FDIV);
+                    mv.visitVarInsn(FSTORE,dou2);
+                    break;
+                case NULL:
+                    if(Tables.getType(quaternary.getOpds().get(1)) == TypeLabelItem.type.INTEGER){//<+,t1,a,t2>
+                        int ui1 = Tables.getSymbolCount(quaternary.getOpds().get(1), TypeLabelItem.type.INTEGER);
+                        mv.visitVarInsn(ILOAD, ui1);
+                        mv.visitInsn(IDIV);
+                    }
+                    else if(Tables.getType(quaternary.getOpds().get(1)) == TypeLabelItem.type.NULL){//<+,t1,t2,t3>
+                        mv.visitInsn(IDIV);
+                    }
+                    break;
+            }
         }
         else if(opt.equals("PRINT")){//print打印实现
             mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");//构造打印方法

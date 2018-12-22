@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ParserGenerator {
 
+    // 根据文本字符串生成文法产生式
     static public HashMap<Symbol, HashSet<SymbolString>> Read(List<String> lines) {
         HashMap<Symbol, HashSet<SymbolString>> productionRules = new HashMap<>();
         int index = 0;
@@ -77,6 +78,7 @@ public class ParserGenerator {
         return productionRules;
     }
 
+    // 根据tokenlist得到文法字符串
     static public ArrayList<Symbol> ReadTokenlist(ArrayList<Token> tokenList) {
         ArrayList<Symbol> symbolList = new ArrayList<>();
         for (Token token : tokenList) {

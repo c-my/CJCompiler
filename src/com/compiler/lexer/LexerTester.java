@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+// 检测文法
 public class LexerTester {
     public LexerTester() {
         try {
@@ -70,6 +71,10 @@ public class LexerTester {
                     }
                     subLine = subLine.substring(index);
                 }
+                else{
+                    System.out.println("lexer problem");
+                    return;
+                }
             }
         }
     }
@@ -78,11 +83,13 @@ public class LexerTester {
         return tokenList;
     }
 
+    //检查关键字的后缀是否合法
     private boolean isKeywordSuffix(Character ch) {
         return ch=='(' || ch == ')' || ch == ' ' || ch == '\t'
-                || ch == '[' || ch == '*' || ch=='{';
+                || ch == '[' || ch == '*' || ch=='{' || ch==';';
     }
 
+    // 检查常数的后缀是否合法
     private boolean isNumSuffix(Character ch) {
         return !(CharSet.ALPHABET.contains(ch) || ch == '.');
     }

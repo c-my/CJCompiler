@@ -6,6 +6,7 @@ import com.compiler.utils.StringSet;
 import java.util.HashMap;
 import java.util.HashSet;
 
+// 实例化的自动机，添加了编译器的自动机文法
 public class Lexer extends Automaton {
 
     public Lexer() {
@@ -14,6 +15,7 @@ public class Lexer extends Automaton {
         initTransitionForm();
     }
 
+    // 检查关键字
     public int CheckKeyword(String str) {
         int len = str.length();
         if (len < 2)
@@ -27,6 +29,7 @@ public class Lexer extends Automaton {
         return 0;
     }
 
+    // 检查界符
     public int CheckDelimiter(String str) {
         if (str.isEmpty())
             return 0;
@@ -242,12 +245,13 @@ public class Lexer extends Automaton {
         return transitionForm;
     }
 
+    // 向状态转移表中添加转移
     private void addTransitionRule(int fromState, HashSet<Character> charSet, int toState) {
         transitionForm.put(new StatePair(fromState, charSet), toState);
     }
 }
 
-
+// 终止状态
 class AcceptState {
     final static int hex = -1;
     final static int bin = -2;

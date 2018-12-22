@@ -1,5 +1,6 @@
 package com.compiler.parser;
 
+// 类型表中的表项
 public class TypeLabelItem {
     public TypeLabelItem(type t) {
         this.t = t;
