@@ -12,8 +12,22 @@ public class SymbolTableItem {
                 typ = 2;
                 if (initVal.isEmpty())
                     Tables.charList.add(' ');
-                else
-                    Tables.charList.add(initVal.charAt(1));
+                else {
+                    if (initVal.charAt(1) == '\\') {
+                        switch (initVal.charAt(2)) {
+                            case 'n':
+                                Tables.charList.add('\n');
+                                break;
+                            case 't':
+                                Tables.charList.add('\t');
+                                break;
+                        }
+                    } else {
+                        Tables.charList.add(initVal.charAt(1));
+
+                    }
+                }
+
                 addr = Tables.charList.size() - 1;
                 break;
             case FLOAT:
