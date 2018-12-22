@@ -118,7 +118,7 @@ abstract class LLParser {
                                         Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Double.toString(Tables.getDoubleValue(i_initVal.getValue()))));
                                         break;
                                     case CHAR:
-                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Double.toString(Tables.getCharValue(i_initVal.getValue()))));
+                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Character.toString(Tables.getCharValue(i_initVal.getValue()))));
                                         break;
                                     case NULL:
                                         break;
