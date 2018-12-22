@@ -135,7 +135,9 @@ abstract class LLParser {
                             if (opt.getId().equals("=")) {
                                 Tables.quaternaryList.add(new Quaternary(opt.getId(), opd2.getValue(), "", opd1.getValue()));
                             } else if (opt.getId().equals("+=") || opt.getId().equals("-=") || opt.getId().equals("*=") || opt.getId().equals("/=")) {
-                                Tables.quaternaryList.add(new Quaternary(opt.getId().substring(0, 1), opd1.getValue(), opd2.getValue(), opd1.getValue()));
+                                Tables.quaternaryList.add(new Quaternary(opt.getId().substring(0, 1), opd1.getValue(), opd2.getValue(), "t" + Integer.toString(tmpVariableIndex)));
+                                Tables.quaternaryList.add(new Quaternary("=", "t" + Integer.toString(tmpVariableIndex), "", opd1.getValue()));
+                                ++tmpVariableIndex;
                                 semStack.push(opd1);
                             } else {
                                 Tables.quaternaryList.add(new Quaternary(opt.getId(), opd1.getValue(), opd2.getValue(), "t" + Integer.toString(tmpVariableIndex)));
