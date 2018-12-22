@@ -132,13 +132,17 @@ abstract class LLParser {
                             Symbol opd2 = semStack.pop();
                             Symbol opt = semStack.pop();
                             Symbol opd1 = semStack.pop();
-                            if (!opt.getId().equals("=")) {
+                            if (opt.getId().equals("=")) {
+                                Tables.quaternaryList.add(new Quaternary(opt.getId(), opd2.getValue(), "", opd1.getValue()));
+                            } else if (opt.getId().equals("+=") || opt.getId().equals("-=") || opt.getId().equals("*=") || opt.getId().equals("/=")) {
+                                Tables.quaternaryList.add(new Quaternary(opt.getId().substring(0, 1), opd1.getValue(), opd2.getValue(), opd1.getValue()));
+                                semStack.push(opd1);
+                            } else {
                                 Tables.quaternaryList.add(new Quaternary(opt.getId(), opd1.getValue(), opd2.getValue(), "t" + Integer.toString(tmpVariableIndex)));
                                 Symbol tmp = new Symbol(opd2.getId(), Symbol.SymbolType.Terminal, "t" + Integer.toString(tmpVariableIndex), Token.tokenType.DOUBLE);
                                 semStack.push(tmp);
                                 ++tmpVariableIndex;
-                            } else {
-                                Tables.quaternaryList.add(new Quaternary(opt.getId(), opd2.getValue(), "", opd1.getValue()));
+
                             }
                             break;
                         case GEQ_IF:
@@ -159,6 +163,9 @@ abstract class LLParser {
                         case END_WHILE:
                             Tables.quaternaryList.add(new Quaternary("END_WHILE", "", "", ""));
                             break;
+                        case GEQ_BREAK:
+                            Tables.quaternaryList.add(new Quaternary("BREAK", "", "", ""));
+                            break;
                         case PUSH_CAPACITY:
                             capacityStack.push(lastTopSym);
                             break;
@@ -167,10 +174,30 @@ abstract class LLParser {
                             Tables.quaternaryList.add(new Quaternary("PRINT", "", "", prntSym.getValue()));
                             break;
                         case FILL_EMPTY_ARRAY:
-                            var capacitySym = capacityStack.pop();
-                            System.out.println("Capacity: " + capacitySym.getValue());
+                            var emptyArrayCapacity = Integer.parseInt(capacityStack.pop().getValue());
+                            var arrayTypeSym = semStack.pop();
+                            var emptyArrIdentifier = semStack.pop();
+                            ArrayList empArr;
+                            switch (arrayTypeSym.getValue().toLowerCase()) {
+                                case "int":
+                                    empArr = new ArrayList<Integer>();
+                                    break;
+                                case "double":
+                                case "float":
+                                    empArr = new ArrayList<Double>();
+                                    break;
+                                case "char":
+                                    empArr = new ArrayList<Character>();
+                                    break;
+                                default:
+                                    return false;
+                            }
+                            for (int i = 0; i < emptyArrayCapacity; ++i) {
+                                empArr.add(semStack.pop());
+                            }
+                            System.out.println("Capacity: " + emptyArrayCapacity);
                             System.out.println("Type: " + semStack.pop().getId());
-
+                            Tables.SymbolTable.add(new SymbolTableItem(emptyArrIdentifier.getValue(), Token.tokenType.NONE, SymbolTableItem.cat_enum.TYPE, ""));
 //                            Tables.arrayTable.add(new ArrayTableItem(Integer.parseInt(capacitySym.getValue())));
                             break;
                         case FILL_ARRAY:

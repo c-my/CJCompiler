@@ -58,6 +58,8 @@ public class ParserGenerator {
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_WHILE));
                         else if (sym.equals("END_WHILE"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.END_WHILE));
+                        else if(sym.equals("GEQ_BREAK"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_BREAK));
                         else if (sym.equals("GEQ_PRINT"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_PRINT));
                         else if (ParserTest.isTerminal(sym))
@@ -87,33 +89,6 @@ public class ParserGenerator {
                     break;
                 case DELIMITER:
                     switch (token.getStr()) {
-                        case "*=":
-                            symbolList.add(new Symbol("MUL_ASSIGN", Symbol.SymbolType.Terminal));
-                            break;
-                        case "/=":
-                            symbolList.add(new Symbol("DIV_ASSIGN", Symbol.SymbolType.Terminal));
-                            break;
-                        case "%=":
-                            symbolList.add(new Symbol("MOD_ASSIGN", Symbol.SymbolType.Terminal));
-                            break;
-                        case "+=":
-                            symbolList.add(new Symbol("ADD_ASSIGN", Symbol.SymbolType.Terminal));
-                            break;
-                        case "-=":
-                            symbolList.add(new Symbol("SUB_ASSIGN", Symbol.SymbolType.Terminal));
-                            break;
-                        case "<<=":
-                            symbolList.add(new Symbol("LEFT_ASSIGN", Symbol.SymbolType.Terminal));
-                            break;
-                        case ">>=":
-                            symbolList.add(new Symbol("RIGHT_ASSIGN", Symbol.SymbolType.Terminal));
-                            break;
-                        case "&=":
-                            symbolList.add(new Symbol("AND_ASSIGN", Symbol.SymbolType.Terminal));
-                            break;
-                        case "^=":
-                            symbolList.add(new Symbol("XOR_ASSIGN", Symbol.SymbolType.Terminal));
-                            break;
                         case "|=":
                             symbolList.add(new Symbol("OR_ASSIGN", Symbol.SymbolType.Terminal));
                             break;
