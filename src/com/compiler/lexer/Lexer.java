@@ -68,7 +68,9 @@ public class Lexer extends Automaton {
 
         addTransitionRule(0, CharSet.MINUS, 25);
         addTransitionRule(0, CharSet.ADD, 25);
-        addTransitionRule(25, CharSet.ZERO, 3);
+        addTransitionRule(25, CharSet.ZERO, 333);
+        addTransitionRule(333, CharSet.DOT, 3);
+        addTransitionRule(333, CharSet.EMPTY, AcceptState.oct);
         addTransitionRule(25, CharSet.DECHEAD, 2);
 
         addTransitionRule(0, CharSet.DECHEAD, 2);

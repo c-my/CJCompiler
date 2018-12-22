@@ -64,14 +64,27 @@ public class LexerTester {
                 totalIndex += index;
                 if (index != 0) {
                     var t = parseType(resPair.second);
-                    tokenList.add(new Token(subLine.substring(0, index), t));
+//                    if (subLine.charAt(0) == '+' || subLine.charAt(0) == '-') {
+//                        tokenList.add(new Token(subLine.substring(0, 1), Token.tokenType.DELIMITER));
+//                        subLine = subLine.substring(1);
+//                        ++totalIndex;
+//                        --index;
+//                    }
                     if (index != subLine.length() && !isNumSuffix(subLine.charAt(index))) {
                         System.out.println("identifier started with number or number with two dots");
                         break;
                     }
+                    if (!tokenList.get(tokenList.size() - 1).getStr().equals("=")) {
+                        if (subLine.charAt(0) == '+' || subLine.charAt(0) == '-') {
+                            tokenList.add(new Token(subLine.substring(0, 1), Token.tokenType.DELIMITER));
+                            subLine = subLine.substring(1);
+//                            ++totalIndex;
+                            --index;
+                        }
+                    }
+                    tokenList.add(new Token(subLine.substring(0, index), t));
                     subLine = subLine.substring(index);
-                }
-                else{
+                } else {
                     System.out.println("lexer problem");
                     return;
                 }
@@ -85,8 +98,8 @@ public class LexerTester {
 
     //检查关键字的后缀是否合法
     private boolean isKeywordSuffix(Character ch) {
-        return ch=='(' || ch == ')' || ch == ' ' || ch == '\t'
-                || ch == '[' || ch == '*' || ch=='{' || ch==';';
+        return ch == '(' || ch == ')' || ch == ' ' || ch == '\t'
+                || ch == '[' || ch == '*' || ch == '{' || ch == ';';
     }
 
     // 检查常数的后缀是否合法
