@@ -16,7 +16,7 @@ public class TraverSymbolTable implements Opcodes {
                 Count = Tables.getSymbolCount(Sname, TypeLabelItem.type.FLOAT);
                 System.out.println(Sname + " " + Sval + " " + Count);
                 mv.visitLdcInsn(Sval);
-                mv.visitVarInsn(DSTORE, Count);
+                mv.visitVarInsn(DSTORE, Count * 2);
             }
             else if(Tables.getIntValue(Sname) != Integer.MAX_VALUE){
                 var Sval = Tables.getIntValue(Sname);
@@ -26,11 +26,12 @@ public class TraverSymbolTable implements Opcodes {
                 mv.visitVarInsn(ISTORE, Count);
             }
             else if(Tables.getCharValue(Sname) != ' '){
-                var Sval =String.valueOf(Tables.getCharValue(Sname));
+                var Sval =Integer.valueOf(Tables.getCharValue(Sname));
                 Count = Tables.getSymbolCount(Sname, TypeLabelItem.type.CHAR);
                 System.out.println(Sname + " " + Sval + " " + Count);
-                mv.visitLdcInsn(Sval);
-                mv.visitVarInsn(ASTORE, Count);
+                mv.visitIntInsn(SIPUSH, Sval);
+                //mv.visitLdcInsn(Sval);
+                mv.visitVarInsn(ISTORE, Count);
             }
         }
     }
