@@ -108,12 +108,6 @@ public class ParserGenerator {
                         case "||":
                             symbolList.add(new Symbol("OR_OP", Symbol.SymbolType.Terminal));
                             break;
-                        case "<=":
-                            symbolList.add(new Symbol("LE_OP", Symbol.SymbolType.Terminal));
-                            break;
-                        case ">=":
-                            symbolList.add(new Symbol("GE_OP", Symbol.SymbolType.Terminal));
-                            break;
                         case "==":
                             symbolList.add(new Symbol("EQ_OP", Symbol.SymbolType.Terminal));
                             break;

@@ -1,11 +1,9 @@
-
-char a = 'a';
-char b = 'b';
-char c ='\n';
-char d = 'd';
+int a=3;
+while(a!=1){
 print a;
-print c;
-print b;
+}
+
+
 
 
 
