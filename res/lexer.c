@@ -1,11 +1,9 @@
+int a = 3;
 
-char a = 'a';
-char b = 'b';
-char c ='\n';
-char d = 'd';
+while(a < 5){
 print a;
-print c;
-print b;
+a = a + 1;
+}
 
 
 

@@ -13,6 +13,8 @@ public class BytecodeGenerator implements Opcodes {
     public Label labelend = new Label();
     public Label labelwhile  = new Label();
     public Label labelEND_WHILE = new Label();
+    public Label labelEQwhile = new Label();
+    public Label labelEQEND_WHILE = new Label();
 
 
     public byte[] generateBytecode() throws Exception {
