@@ -108,15 +108,27 @@ public class Tables {
     //返回 名为name的符号 是 符号表中第几个 类型为type的 符号
     public static int getSymbolCount(String name, TypeLabelItem.type type) {
         int index = 0;
-        for (SymbolTableItem item : SymbolTable) {
-            if (typeTabel.get(item.getTyp()).getType() == type) {
-                if (item.getName().equals(name)) {
-                    return index;
+        if (type == TypeLabelItem.type.CHAR || type == TypeLabelItem.type.INTEGER) {
+            for (SymbolTableItem item : SymbolTable) {
+                if (typeTabel.get(item.getTyp()).getType() == TypeLabelItem.type.CHAR || typeTabel.get(item.getTyp()).getType() == TypeLabelItem.type.INTEGER) {
+                    if (item.getName().equals(name)) {
+                        return index;
+                    }
+                    ++index;
                 }
-                ++index;
             }
+            return index;
+        } else {
+            for (SymbolTableItem item : SymbolTable) {
+                if (typeTabel.get(item.getTyp()).getType() == type) {
+                    if (item.getName().equals(name)) {
+                        return index;
+                    }
+                    ++index;
+                }
+            }
+            return index;
         }
-        return index;
     }
 
     public static TypeLabelItem.type isNumber(String str) {
