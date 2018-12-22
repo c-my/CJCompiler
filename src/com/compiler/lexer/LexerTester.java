@@ -74,7 +74,7 @@ public class LexerTester {
                         System.out.println("identifier started with number or number with two dots");
                         break;
                     }
-                    if (!tokenList.get(tokenList.size() - 1).getStr().equals("=")) {
+                    if (!tokenList.isEmpty() && !tokenList.get(tokenList.size() - 1).getStr().equals("=")) {
                         if (subLine.charAt(0) == '+' || subLine.charAt(0) == '-') {
                             tokenList.add(new Token(subLine.substring(0, 1), Token.tokenType.DELIMITER));
                             subLine = subLine.substring(1);
