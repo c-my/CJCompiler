@@ -28,7 +28,7 @@ public class ParserGenerator {
             var symstrs = right.split("\\|");
             for (var str : symstrs) {
                 SymbolString symbolString = new SymbolString(index++);
-                if (str.isEmpty())
+                if (str.equals(" "))
                     symbolString.add(new Symbol("|", Symbol.SymbolType.Terminal));
                 else {
                     var syms = str.split(" ");

@@ -7,6 +7,8 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+import java.util.ArrayList;
+
 public class BytecodeGenerator implements Opcodes {
     public Label labelif = new Label();
     public Label labelelse = new Label();
@@ -15,6 +17,11 @@ public class BytecodeGenerator implements Opcodes {
     public Label labelEND_WHILE = new Label();
     public Label labelEQwhile = new Label();
     public Label labelEQEND_WHILE = new Label();
+
+    static public ArrayList<Label> labelListWhile = new ArrayList<>();
+    static public ArrayList<Label> labelListWhileEnd = new ArrayList<>();
+    static public int labelIndex = -1;
+
 
 
     public byte[] generateBytecode() throws Exception {
@@ -38,8 +45,14 @@ public class BytecodeGenerator implements Opcodes {
             final int maxStack = 1000;
 
             for (Quaternary quaternary : Tables.quaternaryList) {
-
-                c.comput(mv,quaternary);
+                int currentIndex = Tables.quaternaryList.indexOf(quaternary);
+                Quaternary nextQuaternary;
+                if(currentIndex!= Tables.quaternaryList.size()-1)
+                    nextQuaternary = Tables.quaternaryList.get(Tables.quaternaryList.indexOf(quaternary)+1);
+                else{
+                    nextQuaternary = new Quaternary("","","","");
+                }
+                c.comput(mv,quaternary,nextQuaternary);
                 System.out.println("循环四元式完成");
             }
             mv.visitInsn(RETURN); //add return instruction

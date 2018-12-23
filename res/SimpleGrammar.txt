@@ -40,5 +40,5 @@ type_name->INT|FLOAT|DOUBLE|CHAR
 first_operator->!|~
 second_operator->*|/|%
 third_operator->+|-|<<|>>
-fourth_operator->&|^||
+fourth_operator->&|^| |
 fifth_operator->=|EQ_OP|NE_OP|<|>|>=|<=|+=|-=|*=|/=|%=|%=|<<=|>>=|&=|^=
