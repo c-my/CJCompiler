@@ -73,6 +73,10 @@ abstract class LLParser {
                         case FILL:
                             Symbol name = semStack.pop();// 只能提供名字
                             Symbol type = semStack.pop();// 提供类型名
+                            if (Tables.SymbolTable.stream().anyMatch(item -> item.getName().equals(name.getValue()))) {
+                                System.out.println("redefine symbol " + name.getValue());
+                                return false;
+                            }
                             Token.tokenType tokenType = Token.tokenType.NONE;
                             switch (type.getId().toLowerCase()) {
                                 case "int":
@@ -95,6 +99,10 @@ abstract class LLParser {
                             Symbol i_name = semStack.pop();// 只能提供名字
                             Symbol i_type = semStack.pop();// 提供类型名
                             Token.tokenType i_tokenType = Token.tokenType.NONE;
+                            if (Tables.SymbolTable.stream().filter(item -> item.getName().equals(i_name.getValue())).findFirst().isPresent()) {
+                                System.out.println("redefined symbol " + i_name.getValue());
+                                return false;
+                            }
                             switch (i_type.getId().toLowerCase()) {
                                 case "int":
                                     i_tokenType = Token.tokenType.INTEGER;
@@ -205,17 +213,17 @@ abstract class LLParser {
                             for (int i = 0; i < emptyArrayCapacity; ++i) {
                                 empArr.add(semStack.pop());
                             }
-                            System.out.println("Capacity: " + emptyArrayCapacity);
-                            System.out.println("Type: " + semStack.pop().getId());
+//                            System.out.println("Capacity: " + emptyArrayCapacity);
+//                            System.out.println("Type: " + semStack.pop().getId());
                             Tables.SymbolTable.add(new SymbolTableItem(emptyArrIdentifier.getValue(), Token.tokenType.NONE, SymbolTableItem.cat_enum.TYPE, ""));
 //                            Tables.arrayTable.add(new ArrayTableItem(Integer.parseInt(capacitySym.getValue())));
                             break;
                         case FILL_ARRAY:
                             var capacitysSym = Integer.parseInt(capacityStack.pop().getValue());
-                            System.out.println("Capacitys: " + capacitysSym);
-                            for (int i = 0; i < capacitysSym; ++i)
-                                System.out.print(semStack.pop().getValue() + " ");
-                            System.out.println();
+//                            System.out.println("Capacitys: " + capacitysSym);
+//                            for (int i = 0; i < capacitysSym; ++i)
+//                                System.out.print(semStack.pop().getValue() + " ");
+//                            System.out.println();
                             break;
                         case BEGIN_STRUCT:
 
@@ -226,6 +234,24 @@ abstract class LLParser {
                             currentStruct = "";
                             break;
                         case PUSH_MEMBER:
+//                            Symbol memberSym = semStack.pop();
+//                            Symbol belongstoSym = semStack.pop();
+//                            var findRes = Tables.SymbolTable.stream().filter(item -> item.getName().equals(belongstoSym.getValue()) && item.getTyp() > 2).findFirst();
+//                            if (findRes.isEmpty()) {
+//                                System.out.println("No such variable!");
+//                                return false;
+//                            }
+//                            findRes = Tables.SymbolTable.stream().filter(item -> item.getName().equals(memberSym.getValue())).findFirst();
+//                            if (findRes.isEmpty()) {
+//                                System.out.println("No such variable!");
+//                                return false;
+//                            }
+//                            var shoudldBelongsTo = findRes.get().getBelongTo();
+//                            if (!shoudldBelongsTo.equals(belongstoSym.getValue())) {
+//                                System.out.println(belongstoSym.getValue() + " no such member");
+//                                return false;
+//                            }
+//                            semStack.push(memberSym);
                             break;
                     }
                     continue;

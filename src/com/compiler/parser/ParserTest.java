@@ -83,7 +83,7 @@ public class ParserTest extends LLParser {
     private void initRules() {
         List<String> lines = FileReader.getLines("res/SimpleGrammar.txt");
         rules = ParserGenerator.Read(lines);
-        Show.printRules(rules);
+//        Show.printRules(rules);
     }
 
 

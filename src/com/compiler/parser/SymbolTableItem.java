@@ -83,6 +83,10 @@ public class SymbolTableItem {
         return name;
     }
 
+    public String getBelongTo() {
+        return belongTo;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
