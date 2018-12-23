@@ -577,7 +577,7 @@ public class ComputClass implements Opcodes {
                     break;
             }
         }
-        else if(opt.equals("PRINT")){//print打印实现
+        else if(opt.equals("PRINTLN")){//print打印实现
             mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");//构造打印方法
             switch (Tables.getType(quaternary.getOpds().get(2))){
                 case INTEGER:
@@ -595,6 +595,27 @@ public class ComputClass implements Opcodes {
                     int Cdou = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.CHAR);
                     mv.visitVarInsn(ILOAD, Cdou);
                     mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "println", "(C)V", false);
+                    break;
+            }
+        }
+        else if(opt.equals("PRINT")){//print打印实现
+            mv.visitFieldInsn(GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");//构造打印方法
+            switch (Tables.getType(quaternary.getOpds().get(2))){
+                case INTEGER:
+                    int dou2 = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.INTEGER);
+                    mv.visitVarInsn(ILOAD, dou2);
+                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "print", "(I)V", false);
+                    System.out.println("print完成");
+                    break;
+                case FLOAT:
+                    int dou = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.FLOAT);
+                    mv.visitVarInsn(DLOAD, dou * 2);
+                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "print", "(D)V", false);
+                    break;
+                case CHAR:
+                    int Cdou = Tables.getSymbolCount(quaternary.getOpds().get(2), TypeLabelItem.type.CHAR);
+                    mv.visitVarInsn(ILOAD, Cdou);
+                    mv.visitMethodInsn(INVOKEVIRTUAL, "java/io/PrintStream", "print", "(C)V", false);
                     break;
             }
         }
