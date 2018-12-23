@@ -606,6 +606,12 @@ public class ComputClass implements Opcodes {
                 BytecodeGenerator.labelIndex++;
                 //mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
             }
+            if(next.getOpt().toLowerCase().equals("if")){
+                BytecodeGenerator.labelListIF.add(new Label());
+                BytecodeGenerator.lalelListELSE.add(new Label());
+                BytecodeGenerator.lalelListEIFEND.add(new Label());
+                BytecodeGenerator.labelIfIndex ++ ;
+            }
             //if_else 跳转语句if（a==b）类型
             System.out.println("equal");
             int dou0,dou1;//记录四元式第一个第二个操作符的值或者位置
@@ -732,7 +738,14 @@ public class ComputClass implements Opcodes {
                 BytecodeGenerator.labelIndex++;
                 //mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
             }
-            //if_else 跳转语句if（a!=b）类型
+            if(next.getOpt().toLowerCase().equals("if")){
+                BytecodeGenerator.labelListIF.add(new Label());
+                BytecodeGenerator.lalelListELSE.add(new Label());
+                BytecodeGenerator.lalelListEIFEND.add(new Label());
+                BytecodeGenerator.labelIfIndex ++ ;
+            }
+            //if_else 跳转语句if（a==b）类型
+            System.out.println("equal");
             int dou0,dou1;//记录四元式第一个第二个操作符的值或者位置
             switch (Tables.getType(quaternary.getOpds().get(0))){
                 case INTEGER:
@@ -778,7 +791,7 @@ public class ComputClass implements Opcodes {
                             mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
                             mv.visitVarInsn(ILOAD, dou0);//将第一个操作数压栈
                             mv.visitVarInsn(ILOAD, dou1);//第二个操作数压栈
-                            mv.visitJumpInsn(IF_ICMPNE,label2);//两操作数相等继续执行，否则跳到label2处
+                            mv.visitJumpInsn(IF_ICMPEQ,label2);//两操作数相等继续执行，否则跳到label2处
                             mv.visitIntInsn(BIPUSH, 1);//将操作数栈顶置为1，为后续<if, , ,t1 >准备
                             mv.visitJumpInsn(GOTO, label3);//无条件跳转到label3
                             mv.visitLabel(label2);//label2在这里
@@ -848,7 +861,6 @@ public class ComputClass implements Opcodes {
                     }
                     break;
             }
-
         }
         else if(opt.equals(">")){
             if(next.getOpt().toLowerCase().equals("while") || next.getOpt().toLowerCase().equals("if"))
@@ -858,7 +870,14 @@ public class ComputClass implements Opcodes {
                 BytecodeGenerator.labelIndex++;
                 //mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
             }
-            //if_else 跳转语句if（a>b）类型
+            if(next.getOpt().toLowerCase().equals("if")){
+                BytecodeGenerator.labelListIF.add(new Label());
+                BytecodeGenerator.lalelListELSE.add(new Label());
+                BytecodeGenerator.lalelListEIFEND.add(new Label());
+                BytecodeGenerator.labelIfIndex ++ ;
+            }
+            //if_else 跳转语句if（a==b）类型
+            System.out.println("equal");
             int dou0,dou1;//记录四元式第一个第二个操作符的值或者位置
             switch (Tables.getType(quaternary.getOpds().get(0))){
                 case INTEGER:
@@ -961,7 +980,7 @@ public class ComputClass implements Opcodes {
                         mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
                         mv.visitVarInsn(ILOAD,100);
                         mv.visitVarInsn(ILOAD,dou1);
-                        mv.visitJumpInsn(IF_ICMPEQ,label2);//两操作数相等继续执行，否则跳到label2处
+                        mv.visitJumpInsn(IF_ICMPLE,label2);//两操作数相等继续执行，否则跳到label2处
                         mv.visitIntInsn(BIPUSH, 1);//将操作数栈顶置为1，为后续<if, , ,t1 >准备
                         mv.visitJumpInsn(GOTO, label3);//无条件跳转到label3
                         mv.visitLabel(label2);//label2在这里
@@ -983,7 +1002,14 @@ public class ComputClass implements Opcodes {
                 BytecodeGenerator.labelIndex++;
                 //mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
             }
-            //if_else 跳转语句if（a>b）类型
+            if(next.getOpt().toLowerCase().equals("if")){
+                BytecodeGenerator.labelListIF.add(new Label());
+                BytecodeGenerator.lalelListELSE.add(new Label());
+                BytecodeGenerator.lalelListEIFEND.add(new Label());
+                BytecodeGenerator.labelIfIndex ++ ;
+            }
+            //if_else 跳转语句if（a==b）类型
+            System.out.println("equal");
             int dou0,dou1;//记录四元式第一个第二个操作符的值或者位置
             switch (Tables.getType(quaternary.getOpds().get(0))){
                 case INTEGER:
@@ -1086,7 +1112,7 @@ public class ComputClass implements Opcodes {
                         mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
                         mv.visitVarInsn(ILOAD,100);
                         mv.visitVarInsn(ILOAD,dou1);
-                        mv.visitJumpInsn(IF_ICMPEQ,label2);//两操作数相等继续执行，否则跳到label2处
+                        mv.visitJumpInsn(IF_ICMPGE,label2);//两操作数相等继续执行，否则跳到label2处
                         mv.visitIntInsn(BIPUSH, 1);//将操作数栈顶置为1，为后续<if, , ,t1 >准备
                         mv.visitJumpInsn(GOTO, label3);//无条件跳转到label3
                         mv.visitLabel(label2);//label2在这里
@@ -1107,7 +1133,16 @@ public class ComputClass implements Opcodes {
                 BytecodeGenerator.labelListWhile.add(new Label());
                 BytecodeGenerator.labelListWhileEnd.add(new Label());
                 BytecodeGenerator.labelIndex++;
+                //mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
             }
+            if(next.getOpt().toLowerCase().equals("if")){
+                BytecodeGenerator.labelListIF.add(new Label());
+                BytecodeGenerator.lalelListELSE.add(new Label());
+                BytecodeGenerator.lalelListEIFEND.add(new Label());
+                BytecodeGenerator.labelIfIndex ++ ;
+            }
+            //if_else 跳转语句if（a==b）类型
+            System.out.println("equal");
             int dou0,dou1;//记录四元式第一个第二个操作符的值或者位置
             switch (Tables.getType(quaternary.getOpds().get(0))){
                 case INTEGER:
@@ -1210,7 +1245,7 @@ public class ComputClass implements Opcodes {
                         mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
                         mv.visitVarInsn(ILOAD,100);
                         mv.visitVarInsn(ILOAD,dou1);
-                        mv.visitJumpInsn(IF_ICMPEQ,label2);//两操作数相等继续执行，否则跳到label2处
+                        mv.visitJumpInsn(IF_ICMPGT,label2);//两操作数相等继续执行，否则跳到label2处
                         mv.visitIntInsn(BIPUSH, 1);//将操作数栈顶置为1，为后续<if, , ,t1 >准备
                         mv.visitJumpInsn(GOTO, label3);//无条件跳转到label3
                         mv.visitLabel(label2);//label2在这里
@@ -1230,8 +1265,16 @@ public class ComputClass implements Opcodes {
                 BytecodeGenerator.labelListWhile.add(new Label());
                 BytecodeGenerator.labelListWhileEnd.add(new Label());
                 BytecodeGenerator.labelIndex++;
+                //mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
             }
-            //if_else 跳转语句if（a>b）类型
+            if(next.getOpt().toLowerCase().equals("if")){
+                BytecodeGenerator.labelListIF.add(new Label());
+                BytecodeGenerator.lalelListELSE.add(new Label());
+                BytecodeGenerator.lalelListEIFEND.add(new Label());
+                BytecodeGenerator.labelIfIndex ++ ;
+            }
+            //if_else 跳转语句if（a==b）类型
+            System.out.println("equal");
             int dou0,dou1;//记录四元式第一个第二个操作符的值或者位置
             switch (Tables.getType(quaternary.getOpds().get(0))){
                 case INTEGER:
@@ -1259,7 +1302,6 @@ public class ComputClass implements Opcodes {
                                 Label label3 = new Label();
                                 mv.visitVarInsn(ISTORE,1);
                                 mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
-                                //mv.visitLabel(bet.labelwhile);
                                 mv.visitVarInsn(ILOAD, dou0);//将第一个操作数压栈
                                 mv.visitVarInsn(ILOAD,1);
                                 //临时变量之前就已经在数据栈内，不需要压栈
@@ -1276,7 +1318,6 @@ public class ComputClass implements Opcodes {
                             Label label2 = new Label();
                             Label label3 = new Label();
                             mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
-                            //mv.visitLabel(bet.labelwhile);
                             mv.visitVarInsn(ILOAD, dou0);//将第一个操作数压栈
                             mv.visitVarInsn(ILOAD, dou1);//第二个操作数压栈
                             mv.visitJumpInsn(IF_ICMPLT,label2);//两操作数相等继续执行，否则跳到label2处
@@ -1301,7 +1342,6 @@ public class ComputClass implements Opcodes {
                             Label label2 = new Label();
                             Label label3 = new Label();
                             mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
-                           // mv.visitLabel(bet.labelwhile);
                             mv.visitVarInsn(ILOAD, 1);
                             mv.visitIntInsn(SIPUSH,dou1);
                             mv.visitJumpInsn(IF_ICMPLT,label2);//两操作数相等继续执行，否则跳到label2处
@@ -1316,7 +1356,7 @@ public class ComputClass implements Opcodes {
                             Label label2 = new Label();
                             Label label3 = new Label();
                             mv.visitVarInsn(ISTORE, 1);
-                            mv.visitLabel(bet.labelwhile);
+                            mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
                             mv.visitVarInsn(ILOAD,0);
                             mv.visitVarInsn(ILOAD,1);
                             //临时变量之前就已经在数据栈内，不需要压栈
@@ -1335,10 +1375,9 @@ public class ComputClass implements Opcodes {
                         Label label2 = new Label();
                         Label label3 = new Label();
                         mv.visitLabel(BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
-                       // mv.visitLabel(bet.labelwhile);
                         mv.visitVarInsn(ILOAD,100);
                         mv.visitVarInsn(ILOAD,dou1);
-                        mv.visitJumpInsn(IF_ICMPEQ,label2);//两操作数相等继续执行，否则跳到label2处
+                        mv.visitJumpInsn(IF_ICMPLT,label2);//两操作数相等继续执行，否则跳到label2处
                         mv.visitIntInsn(BIPUSH, 1);//将操作数栈顶置为1，为后续<if, , ,t1 >准备
                         mv.visitJumpInsn(GOTO, label3);//无条件跳转到label3
                         mv.visitLabel(label2);//label2在这里
@@ -1357,19 +1396,20 @@ public class ComputClass implements Opcodes {
                 case NULL:
                     System.out.println("if");
                     mv.visitIntInsn(BIPUSH, 1);//把1推至栈顶，与原有的比较
-                    mv.visitJumpInsn(IF_ICMPNE, bet.labelelse);//比较，相同继续，不同跳转到labelelse
+                    mv.visitJumpInsn(IF_ICMPNE, BytecodeGenerator.lalelListELSE.get(BytecodeGenerator.labelIfIndex - 1));//比较，相同继续，不同跳转到labelelse
                     break;
                 case FLOAT://还没写
                     break;
             }
         }
         else if(opt.equals("BEGIN_ELSE")){
-            mv.visitJumpInsn(GOTO, bet.labelend);
-            mv.visitLabel(bet.labelelse);
+            mv.visitJumpInsn(GOTO, BytecodeGenerator.lalelListEIFEND.get(BytecodeGenerator.labelIfIndex - 1));
+            mv.visitLabel(BytecodeGenerator.lalelListELSE.get(BytecodeGenerator.labelIfIndex - 1));
         }
         else if(opt.equals("END_IF")){
-            mv.visitLabel(bet.labelend);
+            mv.visitLabel(BytecodeGenerator.lalelListEIFEND.get(BytecodeGenerator.labelIfIndex - 1));
             BytecodeGenerator.labelIndex--;
+            BytecodeGenerator.labelIfIndex--;
         }
         else if(opt.equals("while")){
             switch (Tables.getType(quaternary.getOpds().get(2))){
@@ -1382,14 +1422,15 @@ public class ComputClass implements Opcodes {
             }
         }
         else if(opt.equals("END_WHILE")){
-            mv.visitJumpInsn(GOTO,BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex));
+            mv.visitJumpInsn(GOTO,BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex ));
             mv.visitLabel(BytecodeGenerator.labelListWhileEnd.get(BytecodeGenerator.labelIndex));
             BytecodeGenerator.labelIndex--;
         }
         else if(opt.equals("BREAK")){
-            mv.visitJumpInsn(GOTO,BytecodeGenerator.labelListWhileEnd.get(BytecodeGenerator.labelIndex));
+            mv.visitJumpInsn(GOTO,BytecodeGenerator.labelListWhileEnd.get(BytecodeGenerator.labelIndex - BytecodeGenerator.labelIfIndex));
         }
-
-
+        else if(opt.equals("CONTINUE")){
+            mv.visitJumpInsn(GOTO, BytecodeGenerator.labelListWhile.get(BytecodeGenerator.labelIndex - BytecodeGenerator.labelIfIndex));
+        }
     }
 }

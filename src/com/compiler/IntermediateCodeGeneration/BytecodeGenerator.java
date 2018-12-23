@@ -21,7 +21,10 @@ public class BytecodeGenerator implements Opcodes {
     static public ArrayList<Label> labelListWhile = new ArrayList<>();
     static public ArrayList<Label> labelListWhileEnd = new ArrayList<>();
     static public int labelIndex = -1;
-
+    static public ArrayList<Label> labelListIF = new ArrayList<>();
+    static public ArrayList<Label> lalelListELSE = new ArrayList<>();
+    static public ArrayList<Label> lalelListEIFEND= new ArrayList<>();
+    static public int labelIfIndex = 0;
 
 
     public byte[] generateBytecode() throws Exception {
