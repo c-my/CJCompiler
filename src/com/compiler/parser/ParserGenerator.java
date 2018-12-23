@@ -69,6 +69,8 @@ public class ParserGenerator {
                             symbolString.add(new Symbol(sym, Symbol.ActionType.BEGIN_STRUCT));
                         else if (sym.equals("END_STRUCT"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.END_STRUCUT));
+                        else if(sym.equals("PUSH_MEMBER"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.PUSH_MEMBER));
                         else if (ParserTest.isTerminal(sym))
                             symbolString.add(new Symbol(sym, Symbol.SymbolType.Terminal));
                         else

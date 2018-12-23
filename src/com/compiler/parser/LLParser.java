@@ -56,7 +56,6 @@ abstract class LLParser {
         Stack<Symbol> capacityStack = new Stack<>();
         Stack<Symbol> structStack = new Stack<>();
 
-        boolean isStruct = false;
         String currentStruct = "";
 
         str.add(endSym);
@@ -225,7 +224,8 @@ abstract class LLParser {
                             break;
                         case END_STRUCUT:
                             currentStruct = "";
-                            isStruct = false;
+                            break;
+                        case PUSH_MEMBER:
                             break;
                     }
                     continue;

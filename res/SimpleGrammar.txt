@@ -36,7 +36,8 @@ third->second third1
 third1->second_operator PUSH second GEQ third1|$
 second->first second1
 second1->first_operator PUSH first GEQ second1|$
-first->IDENTIFIER PUSH|CONSTANT PUSH|( calculation )
+first->IDENTIFIER PUSH maybe_struct|CONSTANT PUSH|( calculation )
+maybe_struct->. IDENTIFIER PUSH_MEMBER|$
 
 type_name->INT|FLOAT|DOUBLE|CHAR
 
