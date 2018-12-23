@@ -32,7 +32,7 @@ public class Main {
         catch (Exception e){
             e.printStackTrace();
         }
-//        System.out.println(result);
+        System.out.println(result);
 
 //        System.out.println(Tables.SymbolTable);
 //        System.out.println(Tables.quaternaryList);

@@ -191,6 +191,10 @@ abstract class LLParser {
                             Symbol prntSym = semStack.pop();
                             Tables.quaternaryList.add(new Quaternary("PRINT", "", "", prntSym.getValue()));
                             break;
+                        case GEQ_PRINTLN:
+                            Symbol prntlnSym = semStack.pop();
+                            Tables.quaternaryList.add(new Quaternary("PRINTLN", "", "", prntlnSym.getValue()));
+                            break;
                         case FILL_EMPTY_ARRAY:
                             var emptyArrayCapacity = Integer.parseInt(capacityStack.pop().getValue());
                             var arrayTypeSym = semStack.pop();

@@ -1,7 +1,7 @@
 program->struct_declear program|declear program|calculation ; program|condition program|cycle program|array_declear program|print_func ; program|break_keyword ; program|$
 
 
-print_func->PRINT calculation GEQ_PRINT
+print_func->PRINT calculation GEQ_PRINT|PRINTLN calculation GEQ_PRINTLN
 
 declear->type_name PUSH IDENTIFIER PUSH declear1
 declear1->; FILL|= declear2
