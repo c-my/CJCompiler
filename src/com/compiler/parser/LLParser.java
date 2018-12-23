@@ -54,6 +54,10 @@ abstract class LLParser {
         Stack<Symbol> symStack = new Stack<>();
         Stack<Symbol> semStack = new Stack<>();
         Stack<Symbol> capacityStack = new Stack<>();
+        Stack<Symbol> structStack = new Stack<>();
+
+        boolean isStruct = false;
+        String currentStruct = "";
 
         str.add(endSym);
         symStack.push(endSym);
@@ -85,7 +89,7 @@ abstract class LLParser {
                                     tokenType = Token.tokenType.CHAR;
                                     break;
                             }
-                            Tables.SymbolTable.add(new SymbolTableItem(name.getValue(), tokenType, SymbolTableItem.cat_enum.VARIABLE, ""));
+                            Tables.SymbolTable.add(new SymbolTableItem(name.getValue(), tokenType, SymbolTableItem.cat_enum.VARIABLE, "", currentStruct));
                             break;
                         case FILL_I:
                             Symbol i_initVal = semStack.pop();
@@ -107,26 +111,28 @@ abstract class LLParser {
                                     break;
                             }
                             if (i_initVal.getId().equals("CONSTANT"))
-                                Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, i_initVal.getValue()));
+                                Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, i_initVal.getValue(), currentStruct));
                             else if (i_initVal.getId().equals("IDENTIFIER")) {
                                 //在符号表中找到这个标识符的值
                                 switch (Tables.getType(i_initVal.getValue())) {
                                     case INTEGER:
-                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Integer.toString(Tables.getIntValue(i_initVal.getValue()))));
+                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Integer.toString(Tables.getIntValue(i_initVal.getValue())), currentStruct));
                                         break;
                                     case FLOAT:
-                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Double.toString(Tables.getDoubleValue(i_initVal.getValue()))));
+                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Double.toString(Tables.getDoubleValue(i_initVal.getValue())), currentStruct));
                                         break;
                                     case CHAR:
-                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Character.toString(Tables.getCharValue(i_initVal.getValue()))));
+                                        Tables.SymbolTable.add(new SymbolTableItem(i_name.getValue(), i_tokenType, SymbolTableItem.cat_enum.VARIABLE, Character.toString(Tables.getCharValue(i_initVal.getValue())), currentStruct));
                                         break;
                                     case NULL:
                                         break;
                                 }
                             }
+
                             break;
                         case PUSH:
                             semStack.push(lastTopSym);
+
                             break;
                         case GEQ:
                             Symbol opd2 = semStack.pop();
@@ -211,6 +217,15 @@ abstract class LLParser {
                             for (int i = 0; i < capacitysSym; ++i)
                                 System.out.print(semStack.pop().getValue() + " ");
                             System.out.println();
+                            break;
+                        case BEGIN_STRUCT:
+
+                            currentStruct = lastTopSym.getValue();
+                            Tables.SymbolTable.add(new SymbolTableItem(currentStruct, Token.tokenType.NONE, SymbolTableItem.cat_enum.TYPE, ""));
+                            break;
+                        case END_STRUCUT:
+                            currentStruct = "";
+                            isStruct = false;
                             break;
                     }
                     continue;

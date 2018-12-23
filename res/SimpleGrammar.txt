@@ -1,4 +1,4 @@
-program->declear program|calculation ; program|condition program|cycle program|array_declear program|print_func ; program|break_keyword ; program|$
+program->struct_declear program|declear program|calculation ; program|condition program|cycle program|array_declear program|print_func ; program|break_keyword ; program|$
 
 
 print_func->PRINT calculation GEQ_PRINT
@@ -6,6 +6,9 @@ print_func->PRINT calculation GEQ_PRINT
 declear->type_name PUSH IDENTIFIER PUSH declear1
 declear1->; FILL|= declear2
 declear2->CONSTANT PUSH FILL_I ;|IDENTIFIER PUSH FILL_I ;
+
+struct_declear->STRUCT IDENTIFIER BEGIN_STRUCT { struct_declear1 } END_STRUCT
+struct_declear1->declear struct_declear1|$
 
 array_declear->[ CONSTANT PUSH_CAPACITY ] type_name PUSH IDENTIFIER PUSH array_declear1
 array_declear1->; FILL_EMPTY_ARRAY|= array_declear2

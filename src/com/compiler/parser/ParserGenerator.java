@@ -59,12 +59,16 @@ public class ParserGenerator {
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_WHILE));
                         else if (sym.equals("END_WHILE"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.END_WHILE));
-                        else if(sym.equals("GEQ_BREAK"))
+                        else if (sym.equals("GEQ_BREAK"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_BREAK));
-                        else if(sym.equals("GEQ_CONTINUE"))
+                        else if (sym.equals("GEQ_CONTINUE"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_CONTINUE));
                         else if (sym.equals("GEQ_PRINT"))
                             symbolString.add(new Symbol(sym, Symbol.ActionType.GEQ_PRINT));
+                        else if (sym.equals("BEGIN_STRUCT"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.BEGIN_STRUCT));
+                        else if (sym.equals("END_STRUCT"))
+                            symbolString.add(new Symbol(sym, Symbol.ActionType.END_STRUCUT));
                         else if (ParserTest.isTerminal(sym))
                             symbolString.add(new Symbol(sym, Symbol.SymbolType.Terminal));
                         else
