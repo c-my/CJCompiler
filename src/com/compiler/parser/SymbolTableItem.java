@@ -54,12 +54,18 @@ public class SymbolTableItem {
         }
     }
 
+    public SymbolTableItem(String name, Token.tokenType tokenType, cat_enum cat, String initVal, String belong) {
+        this(name, tokenType, cat, initVal);
+        this.belongTo = belong;
+    }
+
     public enum cat_enum {FUNC, CONSTANT, VARIABLE, TYPE}
 
     private String name;    // 符号名
     private int typ;        // 符号类型（在类型表中的索引）
     private int addr;       // 符号地址
     private cat_enum cat;   // 符号种类
+    private String belongTo;
 
     public cat_enum getCat() {
         return cat;
@@ -75,6 +81,10 @@ public class SymbolTableItem {
 
     public String getName() {
         return name;
+    }
+
+    public String getBelongTo() {
+        return belongTo;
     }
 
     @Override
@@ -96,6 +106,10 @@ public class SymbolTableItem {
                 sb.append(Tables.charList.get(addr));
                 break;
         }
+//        if(!belongTo.isEmpty()){
+            sb.append(" belongsTo: ");
+            sb.append(belongTo);
+//        }
         return sb.toString();
     }
 }

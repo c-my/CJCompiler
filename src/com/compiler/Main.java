@@ -11,31 +11,31 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("====================================");
+//        System.out.println("====================================");
 
 
         LexerTester lt = new LexerTester();
         var tokenList = lt.getTokenList();
-        System.out.println(tokenList);
+//        System.out.println(tokenList);
 
-        System.out.println("====================================");
+//        System.out.println("====================================");
 
         ParserTest pt = new ParserTest();
         var symbolString = ParserGenerator.ReadTokenlist(tokenList);
-        System.out.println(symbolString);
+//        System.out.println(symbolString);
 
 
         boolean result = pt.Check(symbolString);
-
+        System.out.println(Tables.quaternaryList);
         var compiler = new Compiler();
         try{compiler.compile();}
         catch (Exception e){
             e.printStackTrace();
         }
-        System.out.println(result);
+//        System.out.println(result);
 
-        System.out.println(Tables.SymbolTable);
-        System.out.println(Tables.quaternaryList);
+//        System.out.println(Tables.SymbolTable);
+//        System.out.println(Tables.quaternaryList);
 
 
 
