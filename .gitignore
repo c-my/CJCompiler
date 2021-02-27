@@ -77,4 +77,5 @@ fabric.properties
 # Editor-based Rest Client
 .idea/httpRequests
 
-/res/lexer.c
+# /res/lexer.c
+!/lib/*.jar
