@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project name="CJCompiler" default="jar" basedir="">
+    <property name="lib.dir" value="lib"/>
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="out" />
+        <delete file="lexer.class" />
+    </target>
+
+    <target name="build">
+        <mkdir dir="out/classes"/>
+        <javac srcdir="src" destdir="out/classes" encoding="utf-8" classpathref="classpath" includeantruntime="false" fork="true">
+            <compilerarg value="-J-Duser.language=en"/>
+        </javac>
+    </target>
+
+    <target name="jar" depends="build">
+        <jar destfile="out/CJCompiler.jar" basedir="out/classes">
+            <manifest>
+                <attribute name="Main-Class" value="com.compiler.Main"/>
+            </manifest>
+            <zipgroupfileset dir="lib" includes="*.jar"/>
+        </jar>
+    </target>
+</project>

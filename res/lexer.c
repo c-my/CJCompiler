@@ -13,6 +13,7 @@ while(a<=9){
         print mul;
         print a;
 
+        c = a * b;
         print eq;
         print c;
         print blank;
