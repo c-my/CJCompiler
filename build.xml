@@ -12,7 +12,7 @@
 
     <target name="build">
         <mkdir dir="out/classes"/>
-        <javac srcdir="src" destdir="out/classes" encoding="utf-8" classpathref="classpath" includeantruntime="false" fork="true">
+        <javac srcdir="src" destdir="out/classes" encoding="utf-8" classpathref="classpath" includeantruntime="false" fork="true" sourcepath="src" debug="true">
             <compilerarg value="-J-Duser.language=en"/>
         </javac>
     </target>
@@ -23,6 +23,17 @@
                 <attribute name="Main-Class" value="com.compiler.Main"/>
             </manifest>
             <zipgroupfileset dir="lib" includes="*.jar"/>
+            <fileset dir="res"/>
         </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <exec executable="java" >
+            <arg value="-jar"/>
+            <arg value="out/CJCompiler.jar"/>
+        </exec>
+        <exec executable="java">
+            <arg value="lexer"/>
+        </exec>
     </target>
 </project>

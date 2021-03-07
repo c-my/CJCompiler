@@ -2,22 +2,22 @@ package com.compiler.lexer;
 
 import com.compiler.utils.CharSet;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.compiler.utils.FileReader.getLines;
 
 // 检测文法
 public class LexerTester {
     public LexerTester() {
-        try {
-            List<String> lines = Files.readAllLines(Paths.get("res/lexer.c"), StandardCharsets.US_ASCII);
-            generateTokenList(lines);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        InputStream lexerStream = ClassLoader.getSystemResourceAsStream("lexer.c");
+        List<String> lines = getLines(lexerStream);
+        generateTokenList(lines);
     }
 
     private void generateTokenList(List<String> lines) {

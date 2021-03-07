@@ -4,7 +4,7 @@
 
 ## 构建方式
 
-1. ant
-2. java -jar out/CJCompiler.jar
-3. java lexer
+```
+ant run
+```
 

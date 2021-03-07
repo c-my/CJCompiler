@@ -5,7 +5,17 @@ import com.compiler.utils.Pair;
 import com.compiler.utils.Show;
 import com.compiler.utils.StringSet;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+
+import static com.compiler.utils.FileReader.getLines;
 
 public class ParserTest extends LLParser {
 
@@ -81,9 +91,9 @@ public class ParserTest extends LLParser {
     }
 
     private void initRules() {
-        List<String> lines = FileReader.getLines("res/SimpleGrammar.txt");
+        List<String> lines = getLines(ClassLoader.getSystemResourceAsStream("SimpleGrammar.txt"));
         rules = ParserGenerator.Read(lines);
-//        Show.printRules(rules);
+        //        Show.printRules(rules);
     }
 
 
